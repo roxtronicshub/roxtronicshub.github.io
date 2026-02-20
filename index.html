@@ -121,7 +121,8 @@
             </div>
         </div>
 
-        <div class="hidden md:flex space-x-8 text-[11px] font-bold uppercase tracking-[0.2em] items-center">
+        <!-- Desktop Menu: Increased breakpoint to 'lg' to prevent overlap on tablets -->
+        <div class="hidden lg:flex space-x-8 text-[11px] font-bold uppercase tracking-[0.2em] items-center">
             <a href="#home" class="text-white hover:text-brand transition">Home</a>
             <a href="#services" class="hover:text-brand transition">Services</a>
             <a href="#home-auto" class="text-brand hover:underline underline-offset-4">Smart Home</a>
@@ -129,11 +130,12 @@
             <a href="#contact" class="bg-brand text-dark px-5 py-2 rounded-full hover:scale-105 transition-all">Inquiry</a>
         </div>
 
-        <button id="menu-btn" class="md:hidden text-brand text-2xl"><i class="fas fa-bars"></i></button>
+        <!-- Mobile Menu Toggle: Visible until 'lg' screen -->
+        <button id="menu-btn" class="lg:hidden text-brand text-2xl p-2"><i class="fas fa-bars"></i></button>
     </nav>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-surface z-[120] transform translate-x-full shadow-2xl md:hidden">
+    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-surface z-[120] transform translate-x-full shadow-2xl lg:hidden">
         <div class="flex flex-col h-full p-8">
             <div class="flex justify-between items-center mb-12">
                 <span class="text-brand font-black text-xl italic">RdHi</span>
@@ -346,7 +348,7 @@
                     <form class="space-y-4">
                         <input type="text" placeholder="Your Name" class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 focus:border-brand outline-none transition text-white">
                         <input type="email" placeholder="Business Email" class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 focus:border-brand outline-none transition text-white">
-                        <select class="w-full bg-dark border border-white/10 rounded-2xl p-4 focus:border-brand outline-none transition text-slate-500">
+                        <select class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 focus:border-brand outline-none transition text-slate-500">
                             <option>Home Automation (TATA EZ Home)</option>
                             <option>CNC Laser Maintenance</option>
                             <option>Medical Device Repair</option>
@@ -356,25 +358,6 @@
                         <button class="w-full bg-brand text-dark font-black py-4 rounded-2xl uppercase tracking-widest hover:scale-[1.02] transition">Submit Inquiry</button>
                     </form>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-12 px-6 text-center border-t border-white/5">
-        <div class="max-w-6xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
-                <img src="rhi.png" alt="Footer Logo" class="h-10 mx-auto md:mx-0 opacity-50 grayscale hover:grayscale-0 transition cursor-pointer" onerror="this.style.display='none'">
-                <div class="flex items-center gap-4 bg-white/5 px-6 py-2 rounded-full border border-white/5">
-                    <span class="text-[10px] uppercase font-bold text-slate-500">Official Partner</span>
-                    <!-- Using EZ Home Logo in footer as well -->
-                    <img src="unnamed.png" alt="Tata Power EZ Home" class="h-6" onerror="this.style.opacity='0.5'">
-                </div>
-            </div>
-            <p class="text-[10px] font-bold tracking-[0.5em] text-slate-600 uppercase mb-4">&copy; 2026 ROXTRONICS HUB INDIA | All Systems Go</p>
-            <div class="flex justify-center space-x-8 text-slate-500">
-                <a href="#" class="hover:text-brand transition"><i class="fab fa-linkedin"></i></a>
-                <a href="#" class="hover:text-brand transition"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
     </footer>
