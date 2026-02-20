@@ -73,7 +73,7 @@
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.05), #0f172aa3);
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.05), #2f3c5c);
             z-index: 0;
         }
 
@@ -121,8 +121,8 @@
             </div>
         </div>
 
-        <!-- Desktop Menu: Increased breakpoint to 'lg' to prevent overlap on tablets -->
-        <div class="hidden lg:flex space-x-8 text-[11px] font-bold uppercase tracking-[0.2em] items-center">
+        <!-- Desktop Menu: Reverted to 'md' breakpoint -->
+        <div class="hidden md:flex space-x-8 text-[11px] font-bold uppercase tracking-[0.2em] items-center">
             <a href="#home" class="text-white hover:text-brand transition">Home</a>
             <a href="#services" class="hover:text-brand transition">Services</a>
             <a href="#home-auto" class="text-brand hover:underline underline-offset-4">Smart Home</a>
@@ -130,12 +130,12 @@
             <a href="#contact" class="bg-brand text-dark px-5 py-2 rounded-full hover:scale-105 transition-all">Inquiry</a>
         </div>
 
-        <!-- Mobile Menu Toggle: Visible until 'lg' screen -->
-        <button id="menu-btn" class="lg:hidden text-brand text-2xl p-2"><i class="fas fa-bars"></i></button>
+        <!-- Mobile Menu Toggle: Visible until 'md' screen -->
+        <button id="menu-btn" class="md:hidden text-brand text-2xl p-2"><i class="fas fa-bars"></i></button>
     </nav>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-surface z-[120] transform translate-x-full shadow-2xl lg:hidden">
+    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-surface z-[120] transform translate-x-full shadow-2xl md:hidden">
         <div class="flex flex-col h-full p-8">
             <div class="flex justify-between items-center mb-12">
                 <span class="text-brand font-black text-xl italic">RdHi</span>
@@ -155,12 +155,13 @@
     <!-- Hero Section -->
     <section id="home" class="relative min-h-screen flex items-center justify-center pt-32 px-6 overflow-hidden">
         <div class="hero-bg-collage">
-            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800" class="collage-img">
-            <img src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800" class="collage-img">
-            <img src="https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?auto=format&fit=crop&q=80&w=800" class="collage-img">
-            <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800" class="collage-img">
-            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=800" class="collage-img">
-            <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=800" class="collage-img">
+            
+            <img src="https://lh3.googleusercontent.com/p/AF1QipO7hCycqLV1ynheStBc_-23JYAMWPVFkNDGLTeD=s1360-w1360-h1020-rw" class="collage-img">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipP7tblWQjQFwg5jUJZnHv-swgyxBZivPh-5p0Qk=s1360-w1360-h1020-rw" class="collage-img">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipPBv6gMUr8hcgUCdLy7WoXgk79e6yTaOO6zWihV=s1360-w1360-h1020-rw" class="collage-img">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipMCYja8Az7H0wR87S1dc7RbUYeHbAoO3CCtT24h=s1360-w1360-h1020-rw" class="collage-img">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipNOLcPQtXSDWJaslPGAE7JmSTLJO8etojQo2y4R=s1360-w1360-h1020-rw" class="collage-img">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipPBv6gMUr8hcgUCdLy7WoXgk79e6yTaOO6zWihV=s1360-w1360-h1020-rw" class="collage-img">
             <img src="https://images.unsplash.com/photo-1531266752426-aad472b7bbf4?auto=format&fit=crop&q=80&w=800" class="collage-img">
             <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=800" class="collage-img">
         </div>
@@ -203,10 +204,9 @@
                 </div>
                 
                 <div class="lg:w-2/5 flex flex-col items-center lg:items-start">
-                    <!-- TATA POWER EZ HOME LOGO -->
+                    <!-- TATA POWER EZ HOME LOGO UPDATED -->
                     <div class="bg-white p-4 rounded-2xl mb-8 inline-block shadow-lg">
-                        <img src="tp.jpeg" alt="Tata Power EZ Home Logo" class="h-16 w-auto" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-                        <span class="text-tata font-black text-2xl hidden">EZ HOME</span>
+                        <img src="Pi7_Pi7_Vision.jpeg" alt="Tata Power EZ Home Logo" class="h-16 w-auto" onerror="this.src='unnamed.png'">
                     </div>
                     <div class="bg-brand/10 text-brand px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Official Channel Partner</div>
                     <h2 class="text-4xl font-extrabold text-white text-center lg:text-left leading-tight">Smart Living with <span class="text-brand">EZ HOME</span></h2>
@@ -360,7 +360,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </section>
 
     <script>
         const observerOptions = { threshold: 0.1 };
