@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- CHECKPOINT-4: FIXED TEXT CLIPPING & OPTIMIZED HERO VISIBILITY -->
+    <!-- CHECKPOINT-4: FULLY RESPONSIVE MOBILE & TABLET OPTIMIZED -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROXTRONICS HUB INDIA | Tata Power EZ Home Partner</title>
@@ -47,11 +47,11 @@
             position: absolute;
             inset: 0;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(2, 1fr);
+            @media (min-width: 768px) { grid-template-columns: repeat(4, 1fr); }
             gap: 2px;
             opacity: 0.4; 
             z-index: -1;
-            /* Grayscale restored with brightness/contrast adjustments */
             filter: grayscale(100%) brightness(0.8) contrast(110%);
             overflow: hidden;
         }
@@ -79,9 +79,9 @@
             background: linear-gradient(to right, #ffffff, #a3e635);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Added padding-right to prevent italic 'N' from clipping */
-            padding-right: 0.15em;
-            margin-right: -0.15em;
+            display: inline-block;
+            padding-right: 0.2em; /* Extra padding for italic overhang */
+            margin-right: -0.2em;
         }
 
         .card-hover:hover {
@@ -132,50 +132,56 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="fixed top-[32px] w-full z-[100] glass py-3 px-6 md:px-12 flex justify-between items-center h-[70px]">
-        <div class="flex items-center space-x-3 shrink-0 cursor-pointer" onclick="showPage('home')">
-            <div class="h-10 flex items-center">
+    <nav class="fixed top-[32px] w-full z-[100] glass py-3 px-4 md:px-12 flex justify-between items-center h-[70px]">
+        <div class="flex items-center space-x-2 md:space-x-3 shrink-0 cursor-pointer" onclick="showPage('home')">
+            <div class="h-8 md:h-10 flex items-center">
                 <img src="rhi.png" alt="RHi Logo" class="h-full w-auto" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block'">
-                <span class="text-brand font-black text-2xl hidden italic leading-none uppercase">RHi</span>
+                <span class="text-brand font-black text-xl md:text-2xl hidden italic leading-none uppercase">RHi</span>
             </div>
-            <div class="hidden sm:block leading-none border-l border-white/10 pl-3 text-left">
-                <span class="text-white font-extrabold tracking-tight text-lg block uppercase">Roxtronics Hub</span>
-                <p class="text-[10px] text-brand font-bold tracking-[0.2em] uppercase">India</p>
+            <div class="hidden sm:block leading-none border-l border-white/10 pl-2 md:pl-3 text-left">
+                <span class="text-white font-extrabold tracking-tight text-sm md:text-lg block uppercase">Roxtronics Hub</span>
+                <p class="text-[8px] md:text-[10px] text-brand font-bold tracking-[0.2em] uppercase">India</p>
             </div>
         </div>
 
-        <div class="hidden md:flex space-x-8 text-[11px] font-bold uppercase tracking-[0.2em] items-center text-left">
+        <!-- Desktop Menu - Hidden on Tablet (under 1024px) to avoid overlap -->
+        <div class="hidden lg:flex space-x-6 xl:space-x-8 text-[11px] font-bold uppercase tracking-[0.2em] items-center text-left">
             <button onclick="showPage('home')" id="nav-home" class="nav-btn text-white hover:text-brand transition uppercase font-bold">Home</button>
             <button onclick="showPage('services')" id="nav-services" class="nav-btn hover:text-brand transition uppercase font-bold">Services</button>
             <button onclick="showPage('smarthome')" id="nav-smarthome" class="nav-btn hover:text-brand transition uppercase font-bold">Smart Home</button>
             <button onclick="showPage('workshops')" id="nav-workshops" class="nav-btn hover:text-brand transition uppercase font-bold">Workshops</button>
-            <button onclick="openRegisterModal('General Inquiry')" id="nav-register" class="bg-brand text-dark px-5 py-2 rounded-full hover:scale-105 transition-all font-bold uppercase">Register Now</button>
+            <button onclick="openRegisterModal('General Inquiry')" id="nav-register" class="bg-brand text-dark px-4 xl:px-5 py-2 rounded-full hover:scale-105 transition-all font-bold uppercase">Register Now</button>
         </div>
 
-        <button id="menu-btn" class="md:hidden text-brand text-2xl p-2"><i class="fas fa-bars"></i></button>
+        <!-- Menu button visible on mobile AND tablet -->
+        <button id="menu-btn" class="lg:hidden text-brand text-2xl p-2"><i class="fas fa-bars"></i></button>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-surface z-[120] transform translate-x-full shadow-2xl md:hidden transition-transform duration-300">
+    <!-- Mobile/Tablet Menu -->
+    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-72 bg-surface z-[120] transform translate-x-full shadow-2xl transition-transform duration-300">
         <div class="flex flex-col h-full p-8">
             <div class="flex justify-between items-center mb-12">
-                <span class="text-brand font-black text-xl italic uppercase">RHi</span>
+                <!-- Added logo to side menu header -->
+                <div class="h-10 flex items-center">
+                    <img src="rhi.png" alt="RHi Logo" class="h-full w-auto" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block'">
+                    <span class="text-brand font-black text-xl italic leading-none uppercase hidden">RHi</span>
+                </div>
                 <button id="close-btn" class="text-slate-400 text-2xl"><i class="fas fa-times"></i></button>
             </div>
-            <div class="flex flex-col space-y-8 text-sm font-bold uppercase tracking-widest text-left">
-                <button onclick="showPage('home')" class="text-left text-white">Home</button>
-                <button onclick="showPage('services')" class="text-left text-slate-400">Services</button>
-                <button onclick="showPage('smarthome')" class="text-left text-slate-400">Smart Home</button>
-                <button onclick="showPage('workshops')" class="text-left text-slate-400">Workshops</button>
-                <button onclick="openRegisterModal('General Inquiry')" class="bg-brand text-dark px-4 py-3 rounded-xl text-center">Register Now</button>
+            <div class="flex flex-col space-y-6 text-sm font-bold uppercase tracking-widest text-left">
+                <button onclick="showPage('home')" class="text-left text-white border-b border-white/5 pb-2">Home</button>
+                <button onclick="showPage('services')" class="text-left text-slate-400 border-b border-white/5 pb-2">Services</button>
+                <button onclick="showPage('smarthome')" class="text-left text-slate-400 border-b border-white/5 pb-2">Smart Home</button>
+                <button onclick="showPage('workshops')" class="text-left text-slate-400 border-b border-white/5 pb-2">Workshops</button>
+                <button onclick="openRegisterModal('General Inquiry')" class="bg-brand text-dark px-4 py-4 rounded-xl text-center mt-4">Register Now</button>
             </div>
         </div>
     </div>
     <div id="menu-backdrop" class="fixed inset-0 bg-black/60 z-[115] hidden backdrop-blur-sm"></div>
 
     <!-- PAGE 1: HOME -->
-    <main id="page-home" class="page-node pt-32">
-        <section id="hero" class="relative min-h-[80vh] flex items-center justify-center px-6 overflow-hidden">
+    <main id="page-home" class="page-node pt-32 md:pt-40">
+        <section id="hero" class="relative min-h-[70vh] md:min-h-[80vh] flex items-center justify-center px-4 md:px-6 overflow-hidden">
             <div class="hero-bg-collage">
                 <img src="https://lh3.googleusercontent.com/p/AF1QipO7hCycqLV1ynheStBc_-23JYAMWPVFkNDGLTeD=s1360" class="collage-img" alt="G1">
                 <img src="https://lh3.googleusercontent.com/p/AF1QipP7tblWQjQFwg5jUJZnHv-swgyxBZivPh-5p0Qk=s1360" class="collage-img" alt="G2">
@@ -183,42 +189,42 @@
                 <img src="https://lh3.googleusercontent.com/p/AF1QipMCYja8Az7H0wR87S1dc7RbUYeHbAoO3CCtT24h=s1360" class="collage-img" alt="G4">
             </div>
             <div class="hero-overlay"></div>
-            <div class="max-w-6xl w-full text-center md:text-left grid md:grid-cols-5 gap-12 items-center relative z-10">
+            <div class="max-w-6xl w-full text-center md:text-left grid md:grid-cols-5 gap-8 lg:gap-12 items-center relative z-10">
                 <div class="md:col-span-3 text-left">
-                    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6 italic uppercase text-left">
+                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-4 md:mb-6 italic uppercase pr-4">
                         Future of <span class="gradient-text">Automation</span> is here.
                     </h1>
-                    <p class="text-slate-300 text-lg md:text-xl max-w-xl mb-10 leading-relaxed text-left italic">"Precision engineering services for Industrial CNC, Smart Home integration, and Medical Tech."</p>
+                    <p class="text-slate-300 text-base md:text-xl max-w-xl mb-8 md:mb-10 leading-relaxed text-left italic">"Precision engineering services for Industrial CNC, Smart Home integration, and Medical Tech."</p>
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
-                        <button onclick="showPage('smarthome')" class="bg-brand text-dark px-10 py-4 rounded-full font-bold text-xs uppercase tracking-widest hover:scale-105 transition shadow-lg">Smart Solutions</button>
-                        <button onclick="showPage('services')" class="text-white border border-white/20 px-10 py-4 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition">Industrial Tech</button>
+                        <button onclick="showPage('smarthome')" class="bg-brand text-dark px-8 md:px-10 py-3 md:py-4 rounded-full font-bold text-xs uppercase tracking-widest hover:scale-105 transition shadow-lg">Smart Solutions</button>
+                        <button onclick="showPage('services')" class="text-white border border-white/20 px-8 md:px-10 py-3 md:py-4 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition">Industrial Tech</button>
                     </div>
                 </div>
                 <div class="md:col-span-2 hidden md:flex justify-center">
-                    <img src="rhi.png" alt="Logo" class="w-full max-w-[320px] drop-shadow-[0_0_50px_rgba(163,230,53,0.4)]" onerror="this.style.display='none'">
+                    <img src="rhi.png" alt="Logo" class="w-full max-w-[280px] lg:max-w-[320px] drop-shadow-[0_0_50px_rgba(163,230,53,0.4)]" onerror="this.style.display='none'">
                 </div>
             </div>
         </section>
     </main>
 
     <!-- PAGE 2: SERVICES (STATIC) -->
-    <main id="page-services" class="page-node hidden-page pt-32 px-6">
+    <main id="page-services" class="page-node hidden-page pt-32 px-4 md:px-6">
         <div class="max-w-7xl mx-auto py-12">
-            <h1 class="text-5xl md:text-7xl font-black text-white italic mb-12 uppercase text-left italic font-bold">Professional <span class="text-brand">Services</span></h1>
-            <div class="grid md:grid-cols-3 gap-8 text-left">
-                <div class="bg-surface/30 p-10 rounded-[3rem] border border-white/5 card-hover group transition-all duration-300">
+            <h1 class="text-4xl md:text-7xl font-black text-white italic mb-8 md:mb-12 uppercase text-left italic font-bold">Professional <span class="text-brand">Services</span></h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 text-left">
+                <div class="bg-surface/30 p-8 lg:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/5 card-hover group transition-all duration-300">
                     <div class="w-12 h-12 bg-brand/10 text-brand rounded-2xl flex items-center justify-center mb-6"><i class="fas fa-crosshairs text-xl"></i></div>
-                    <h3 class="text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold">CNC Maintenance</h3>
+                    <h3 class="text-xl md:text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold">CNC Maintenance</h3>
                     <p class="text-slate-400 text-sm leading-relaxed text-left italic font-medium uppercase font-bold">Advanced Fiber aur CO2 laser systems ki servicing. Hum beam alignment aur laser source optimization ke expert hain.</p>
                 </div>
-                <div class="bg-surface/30 p-10 rounded-[3rem] border border-white/5 card-hover group transition-all duration-300">
+                <div class="bg-surface/30 p-8 lg:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/5 card-hover group transition-all duration-300">
                     <div class="w-12 h-12 bg-brand/10 text-brand rounded-2xl flex items-center justify-center mb-6"><i class="fas fa-robot text-xl"></i></div>
-                    <h3 class="text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold">Industrial PLC</h3>
+                    <h3 class="text-xl md:text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold">Industrial PLC</h3>
                     <p class="text-slate-400 text-sm leading-relaxed text-left italic font-medium uppercase font-bold">Automation logic programming using Siemens, Delta, aur Mitsubishi PLCs. Customized production line systems.</p>
                 </div>
-                <div class="bg-surface/30 p-10 rounded-[3rem] border border-white/5 card-hover group transition-all duration-300">
+                <div class="bg-surface/30 p-8 lg:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/5 card-hover group transition-all duration-300">
                     <div class="w-12 h-12 bg-brand/10 text-brand rounded-2xl flex items-center justify-center mb-6"><i class="fas fa-heartbeat text-xl"></i></div>
-                    <h3 class="text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold">Medical Tech</h3>
+                    <h3 class="text-xl md:text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold">Medical Tech</h3>
                     <p class="text-slate-400 text-sm leading-relaxed text-left italic font-medium uppercase font-bold">Surgical devices aur lab equipment ki high-precision calibration aur maintenance services provided for hospitals.</p>
                 </div>
             </div>
@@ -226,73 +232,73 @@
     </main>
 
     <!-- PAGE 3: SMART HOME -->
-    <main id="page-smarthome" class="page-node hidden-page pt-32 px-6 text-left">
+    <main id="page-smarthome" class="page-node hidden-page pt-32 px-4 md:px-6 text-left">
         <div class="max-w-7xl mx-auto py-12">
-            <div class="bg-white/5 border border-white/10 rounded-[4rem] p-12 relative overflow-hidden text-center md:text-left mb-16">
-                <div class="relative z-10 flex flex-col md:flex-row items-center gap-12">
-                    <div class="md:w-1/2 text-left">
-                        <img src="tp.jpeg" alt="Tata Power" class="h-16 w-auto bg-white p-2 rounded-lg mb-8 mx-auto md:mx-0">
-                        <h1 class="text-5xl font-black text-white mb-6 uppercase italic text-left font-bold">Tata Power <br><span class="text-brand">EZ HOME</span></h1>
-                        <p class="text-lg text-slate-300 italic mb-8 text-left uppercase font-bold">"Official authorized partner for smart home automation. Secured, energy-efficient aur reliable."</p>
-                        <button onclick="openRegisterModal('Tata Power EZ Home Setup')" class="bg-brand text-dark px-10 py-4 rounded-full font-bold uppercase text-xs tracking-widest shadow-lg">Inquiry Now</button>
+            <div class="bg-white/5 border border-white/10 rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-12 relative overflow-hidden text-center md:text-left mb-12 md:mb-16">
+                <div class="relative z-10 flex flex-col lg:flex-row items-center gap-8 md:gap-12">
+                    <div class="lg:w-1/2 text-left">
+                        <img src="tp.jpeg" alt="Tata Power" class="h-12 md:h-16 w-auto bg-white p-2 rounded-lg mb-6 md:mb-8 mx-auto md:mx-0">
+                        <h1 class="text-3xl md:text-5xl font-black text-white mb-4 md:mb-6 uppercase italic text-left font-bold">Tata Power <br><span class="text-brand">EZ HOME</span></h1>
+                        <p class="text-base md:text-lg text-slate-300 italic mb-6 md:mb-8 text-left uppercase font-bold leading-relaxed">"Official authorized partner for smart home automation. Secured, energy-efficient aur reliable."</p>
+                        <button onclick="openRegisterModal('Tata Power EZ Home Setup')" class="bg-brand text-dark px-8 md:px-10 py-3 md:py-4 rounded-full font-bold uppercase text-xs tracking-widest shadow-lg">Inquiry Now</button>
                     </div>
                 </div>
             </div>
 
-            <h2 class="text-4xl font-black text-white mb-12 uppercase italic text-left">Smart Home <span class="text-brand">Packages</span></h2>
-            <div class="grid md:grid-cols-3 gap-8 text-left">
+            <h2 class="text-3xl md:text-4xl font-black text-white mb-8 md:mb-12 uppercase italic text-left">Smart Home <span class="text-brand">Packages</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 text-left">
                 <!-- 1BHK -->
-                <div class="bg-surface/40 p-10 rounded-[3rem] border border-white/5 card-hover flex flex-col h-full">
+                <div class="bg-surface/40 p-8 lg:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/5 card-hover flex flex-col h-full">
                     <div class="flex justify-between items-start mb-6">
-                        <span class="bg-brand/10 text-brand px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic font-bold">1BHK Setup</span>
-                        <div class="text-right"><p class="text-brand font-black text-2xl italic leading-none">₹7,999/-</p></div>
+                        <span class="bg-brand/10 text-brand px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest italic">1BHK Setup</span>
+                        <p class="text-brand font-black text-xl md:text-2xl italic leading-none">₹7,999/-</p>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-6 uppercase italic font-bold">What will be covered:</h3>
-                    <ul class="space-y-4 mb-10 flex-grow">
-                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Fan Control</li>
-                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Lighting</li>
-                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart TV Control</li>
+                    <h3 class="text-lg md:text-xl font-bold text-white mb-4 md:mb-6 uppercase italic font-bold">What will be covered:</h3>
+                    <ul class="space-y-3 md:space-y-4 mb-8 md:mb-10 flex-grow">
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-[10px] md:text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Fan Control</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-[10px] md:text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Lighting</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-[10px] md:text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart TV Control</li>
                     </ul>
                     <div class="space-y-3">
-                        <button onclick="openRegisterModal('Smart Home - 1BHK Package')" class="w-full py-4 rounded-2xl bg-brand text-dark font-black uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-lg">Book Now</button>
-                        <button onclick="openRegisterModal('Free Demo - 1BHK Setup')" class="w-full py-3 rounded-2xl border border-brand/30 text-brand font-bold uppercase text-[10px] tracking-widest hover:bg-brand/10 transition-all italic">Book Free Demo Now</button>
+                        <button onclick="openRegisterModal('Smart Home - 1BHK Package')" class="w-full py-3.5 md:py-4 rounded-2xl bg-brand text-dark font-black uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-lg">Book Now</button>
+                        <button onclick="openRegisterModal('Free Demo - 1BHK Setup')" class="w-full py-2.5 md:py-3 rounded-2xl border border-brand/30 text-brand font-bold uppercase text-[10px] tracking-widest hover:bg-brand/10 transition-all italic">Book Free Demo</button>
                     </div>
                 </div>
                 <!-- 2BHK -->
-                <div class="bg-surface/40 p-10 rounded-[3rem] border border-brand/20 card-hover flex flex-col h-full relative overflow-hidden shadow-[0_0_30px_rgba(163,230,53,0.05)]">
+                <div class="bg-surface/40 p-8 lg:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-brand/20 card-hover flex flex-col h-full relative overflow-hidden shadow-[0_0_30px_rgba(163,230,53,0.05)]">
                     <div class="absolute -right-12 top-6 bg-brand text-dark text-[10px] font-black uppercase py-1 w-44 text-center rotate-45">Popular Choice</div>
                     <div class="flex justify-between items-start mb-6">
-                        <span class="bg-brand/10 text-brand px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic font-bold">2BHK Setup</span>
-                        <div class="text-right"><p class="text-brand font-black text-2xl italic leading-none">₹14,999/-</p></div>
+                        <span class="bg-brand/10 text-brand px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest italic">2BHK Setup</span>
+                        <p class="text-brand font-black text-xl md:text-2xl italic leading-none">₹14,999/-</p>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-6 uppercase italic font-bold">What will be covered:</h3>
-                    <ul class="space-y-4 mb-10 flex-grow">
-                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Fan & Lights</li>
-                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart TV Control</li>
-                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> LED Conceal Light Control</li>
-                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Dimmers</li>
+                    <h3 class="text-lg md:text-xl font-bold text-white mb-4 md:mb-6 uppercase italic font-bold">What will be covered:</h3>
+                    <ul class="space-y-3 md:space-y-4 mb-8 md:mb-10 flex-grow">
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-[10px] md:text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Fan & Lights</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-[10px] md:text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart TV Control</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-[10px] md:text-xs italic"><i class="fas fa-check-circle text-brand"></i> LED Conceal Light</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-[10px] md:text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Dimmers</li>
                     </ul>
                     <div class="space-y-3">
-                        <button onclick="openRegisterModal('Smart Home - 2BHK Package')" class="w-full py-4 rounded-2xl bg-brand text-dark font-black uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-lg">Book Now</button>
-                        <button onclick="openRegisterModal('Free Demo - 2BHK Setup')" class="w-full py-3 rounded-2xl border border-brand/30 text-brand font-bold uppercase text-[10px] tracking-widest hover:bg-brand/10 transition-all italic">Book Free Demo Now</button>
+                        <button onclick="openRegisterModal('Smart Home - 2BHK Package')" class="w-full py-3.5 md:py-4 rounded-2xl bg-brand text-dark font-black uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-lg">Book Now</button>
+                        <button onclick="openRegisterModal('Free Demo - 2BHK Setup')" class="w-full py-2.5 md:py-3 rounded-2xl border border-brand/30 text-brand font-bold uppercase text-[10px] tracking-widest hover:bg-brand/10 transition-all italic">Book Free Demo</button>
                     </div>
                 </div>
                 <!-- 3BHK -->
-                <div class="bg-surface/40 p-10 rounded-[3rem] border border-white/5 card-hover flex flex-col h-full">
+                <div class="bg-surface/40 p-8 lg:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/5 card-hover flex flex-col h-full">
                     <div class="flex justify-between items-start mb-6">
-                        <span class="bg-brand/10 text-brand px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic font-bold">3BHK Setup</span>
-                        <div class="text-right"><p class="text-brand font-black text-2xl italic leading-none">₹28,999/-</p></div>
+                        <span class="bg-brand/10 text-brand px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest italic">3BHK Setup</span>
+                        <p class="text-brand font-black text-xl md:text-2xl italic leading-none">₹28,999/-</p>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-6 uppercase italic font-bold">What will be covered:</h3>
-                    <ul class="space-y-4 mb-10 flex-grow">
-                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Fan, Lights & TV Control</li>
-                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart AC/Geyser Control</li>
-                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> LED Conceal Light Control</li>
-                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Dimmers</li>
+                    <h3 class="text-lg md:text-xl font-bold text-white mb-4 md:mb-6 uppercase italic font-bold">What will be covered:</h3>
+                    <ul class="space-y-3 md:space-y-4 mb-8 md:mb-10 flex-grow">
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-[10px] md:text-xs italic"><i class="fas fa-check-circle text-brand"></i> Fan, Lights & TV</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-[10px] md:text-xs italic"><i class="fas fa-check-circle text-brand"></i> AC/Geyser Control</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-[10px] md:text-xs italic"><i class="fas fa-check-circle text-brand"></i> LED Conceal Light</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-[10px] md:text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Dimmers</li>
                     </ul>
                     <div class="space-y-3">
-                        <button onclick="openRegisterModal('Smart Home - 3BHK Package')" class="w-full py-4 rounded-2xl bg-brand text-dark font-black uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-lg">Book Now</button>
-                        <button onclick="openRegisterModal('Free Demo - 3BHK Setup')" class="w-full py-3 rounded-2xl border border-brand/30 text-brand font-bold uppercase text-[10px] tracking-widest hover:bg-brand/10 transition-all italic">Book Free Demo Now</button>
+                        <button onclick="openRegisterModal('Smart Home - 3BHK Package')" class="w-full py-3.5 md:py-4 rounded-2xl bg-brand text-dark font-black uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-lg">Book Now</button>
+                        <button onclick="openRegisterModal('Free Demo - 3BHK Setup')" class="w-full py-2.5 md:py-3 rounded-2xl border border-brand/30 text-brand font-bold uppercase text-[10px] tracking-widest hover:bg-brand/10 transition-all italic">Book Free Demo</button>
                     </div>
                 </div>
             </div>
@@ -300,13 +306,13 @@
     </main>
 
     <!-- PAGE 4: WORKSHOPS -->
-    <main id="page-workshops" class="page-node hidden-page pt-32 px-6 text-left">
+    <main id="page-workshops" class="page-node hidden-page pt-32 px-4 md:px-6 text-left">
         <div class="max-w-7xl mx-auto py-12">
-            <h1 class="text-5xl md:text-7xl font-black text-white italic mb-12 uppercase text-left italic font-bold">Live <span class="text-brand">Workshops</span></h1>
-            <div id="workshops-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-                <div class="skeleton h-64 rounded-[3rem]"></div>
-                <div class="skeleton h-64 rounded-[3rem]"></div>
-                <div class="skeleton h-64 rounded-[3rem]"></div>
+            <h1 class="text-4xl md:text-7xl font-black text-white italic mb-8 md:mb-12 uppercase text-left italic font-bold">Live <span class="text-brand">Workshops</span></h1>
+            <div id="workshops-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 text-left">
+                <div class="skeleton h-64 rounded-[2.5rem] md:rounded-[3rem]"></div>
+                <div class="skeleton h-64 rounded-[2.5rem] md:rounded-[3rem]"></div>
+                <div class="skeleton h-64 rounded-[2.5rem] md:rounded-[3rem]"></div>
             </div>
         </div>
     </main>
@@ -314,24 +320,24 @@
     <!-- REGISTRATION MODAL -->
     <div id="register-modal" class="fixed inset-0 z-[250] flex items-center justify-center p-4 modal-base">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeRegisterModal()"></div>
-        <div class="bg-surface border border-white/10 p-8 md:p-12 rounded-[4rem] max-w-2xl w-full relative z-10 shadow-2xl modal-hide-anim overflow-y-auto max-h-[90vh]">
-            <button onclick="closeRegisterModal()" class="absolute top-8 right-8 text-slate-500 hover:text-white transition"><i class="fas fa-times text-2xl"></i></button>
-            <h2 class="text-4xl font-black text-white mb-2 italic uppercase font-bold uppercase">Register <span class="text-brand">Now</span></h2>
-            <p id="reg-subtitle" class="text-slate-400 mb-8 italic uppercase text-xs font-bold tracking-widest">Inquiry for: <span class="text-brand" id="selected-service-text">General Inquiry</span></p>
+        <div class="bg-surface border border-white/10 p-6 md:p-12 rounded-[2.5rem] md:rounded-[4rem] max-w-2xl w-full relative z-10 shadow-2xl modal-hide-anim overflow-y-auto max-h-[90vh]">
+            <button onclick="closeRegisterModal()" class="absolute top-6 right-6 md:top-8 md:right-8 text-slate-500 hover:text-white transition p-2"><i class="fas fa-times text-2xl"></i></button>
+            <h2 class="text-2xl md:text-4xl font-black text-white mb-2 italic uppercase font-bold uppercase">Register <span class="text-brand">Now</span></h2>
+            <p id="reg-subtitle" class="text-slate-400 mb-6 md:mb-8 italic uppercase text-[10px] md:text-xs font-bold tracking-widest">Inquiry for: <span class="text-brand" id="selected-service-text">General Inquiry</span></p>
             
             <form id="popup-registration-form" class="space-y-4" onsubmit="handleRegistration(event)">
                 <input type="hidden" id="form-category" name="category" value="General Inquiry">
-                <input type="text" id="form-name" name="name" required placeholder="Full Name" class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand transition-all">
+                <input type="text" id="form-name" name="name" required placeholder="Full Name" class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand transition-all text-sm">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input type="tel" id="form-contact" name="contact" required placeholder="Contact Number" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all">
-                    <input type="email" id="form-email" name="email" required placeholder="Email Address" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all">
+                    <input type="tel" id="form-contact" name="contact" required placeholder="Contact Number" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all text-sm">
+                    <input type="email" id="form-email" name="email" required placeholder="Email Address" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all text-sm">
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input type="text" id="form-city" name="city" required placeholder="City" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all">
-                    <input type="text" id="form-state" name="state" required placeholder="State" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all">
+                    <input type="text" id="form-city" name="city" required placeholder="City" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all text-sm">
+                    <input type="text" id="form-state" name="state" required placeholder="State" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all text-sm">
                 </div>
-                <textarea id="form-message" name="message" rows="3" placeholder="How can we help you?" class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand transition-all"></textarea>
-                <button id="submit-btn" class="w-full bg-brand text-dark font-black py-4 rounded-2xl uppercase tracking-widest hover:scale-[1.02] transition shadow-lg flex justify-center items-center gap-2 font-bold italic uppercase">
+                <textarea id="form-message" name="message" rows="3" placeholder="How can we help you?" class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand transition-all text-sm"></textarea>
+                <button id="submit-btn" class="w-full bg-brand text-dark font-black py-4 rounded-2xl uppercase tracking-widest hover:scale-[1.02] transition shadow-lg flex justify-center items-center gap-2 font-bold italic text-sm">
                     Submit Registration
                 </button>
             </form>
@@ -341,16 +347,17 @@
     <!-- SUCCESS MODAL -->
     <div id="success-modal" class="fixed inset-0 z-[300] flex items-center justify-center p-6 modal-base">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeSuccessModal()"></div>
-        <div class="bg-surface border border-brand/20 p-10 rounded-[3.5rem] max-w-md w-full relative z-10 text-center shadow-2xl modal-hide-anim">
-            <div class="w-20 h-20 bg-brand/10 text-brand rounded-full flex items-center justify-center mx-auto mb-6"><i class="fas fa-check text-4xl"></i></div>
-            <h2 class="text-3xl font-black text-white italic mb-4 uppercase italic">Success!</h2>
+        <div class="bg-surface border border-brand/20 p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] max-w-md w-full relative z-10 text-center shadow-2xl modal-hide-anim">
+            <div class="w-16 h-16 md:w-20 md:h-20 bg-brand/10 text-brand rounded-full flex items-center justify-center mx-auto mb-6"><i class="fas fa-check text-3xl md:text-4xl"></i></div>
+            <h2 class="text-2xl md:text-3xl font-black text-white italic mb-4 uppercase italic">Success!</h2>
             <p class="text-slate-400 mb-8 leading-relaxed italic text-sm">"Inquiry Registered Successfully." Hamari team jald hi aapse sampark karegi.</p>
-            <button onclick="closeSuccessModal()" class="w-full bg-brand text-dark font-black py-4 rounded-2xl uppercase tracking-widest shadow-lg hover:scale-105 transition font-bold italic uppercase">Great!</button>
+            <button onclick="closeSuccessModal()" class="w-full bg-brand text-dark font-black py-4 rounded-2xl uppercase tracking-widest shadow-lg hover:scale-105 transition font-bold italic text-sm">Great!</button>
         </div>
     </div>
 
-    <footer class="py-12 bg-dark text-center border-t border-white/5">
-        <p class="text-[10px] uppercase tracking-[0.5em] text-slate-600 font-bold italic uppercase leading-relaxed tracking-widest font-bold">&copy; 2024 ROXTRONICS HUB INDIA | CHECKPOINT-4</p>
+    <!-- SHARED FOOTER -->
+    <footer class="py-12 bg-dark text-center border-t border-white/5 px-4">
+        <p class="text-[8px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.5em] text-slate-600 font-bold italic leading-relaxed">&copy; 2024 ROXTRONICS HUB INDIA | CHECKPOINT-4</p>
     </footer>
 
     <script>
@@ -383,15 +390,15 @@
             const cost = item.cost || item['registration cost.'] || "Free";
             const description = item.description || "Details soon.";
             return `
-            <div class="bg-surface/30 p-8 rounded-[3rem] border border-white/5 card-hover group transition-all duration-300 text-left">
-                <div class="flex justify-between items-start mb-6"><div class="bg-brand/10 text-brand px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest font-bold italic">₹${cost}</div><i class="fas fa-calendar-check text-slate-600"></i></div>
-                <h3 class="text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold italic">${name}</h3>
-                <p class="text-slate-400 text-sm mb-8 line-clamp-3 text-left italic uppercase font-bold">${description}</p>
+            <div class="bg-surface/30 p-8 rounded-[2.5rem] md:rounded-[3rem] border border-white/5 card-hover group transition-all duration-300 text-left">
+                <div class="flex justify-between items-start mb-6"><div class="bg-brand/10 text-brand px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest italic font-bold">₹${cost}</div><i class="fas fa-calendar-check text-slate-600"></i></div>
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold italic">${name}</h3>
+                <p class="text-slate-400 text-sm mb-6 line-clamp-3 text-left italic font-bold">${description}</p>
                 <div class="space-y-2 mb-8 border-t border-white/5 pt-4 text-left uppercase">
-                    <div class="flex items-center text-xs text-slate-500 font-bold uppercase"><i class="fas fa-clock w-5 text-brand"></i> ${item.time || 'TBA'}</div>
-                    <div class="flex items-center text-xs text-slate-500 font-bold uppercase"><i class="fas fa-map-marker-alt w-5 text-brand"></i> ${item.venue || 'Online'}</div>
+                    <div class="flex items-center text-[10px] text-slate-500 font-bold"><i class="fas fa-clock w-4 text-brand"></i> ${item.time || 'TBA'}</div>
+                    <div class="flex items-center text-[10px] text-slate-500 font-bold"><i class="fas fa-map-marker-alt w-4 text-brand"></i> ${item.venue || 'Online'}</div>
                 </div>
-                <button onclick="openRegisterModal('Workshop - ${name}')" class="w-full py-3 rounded-2xl border border-brand/20 text-brand text-[10px] font-bold uppercase tracking-widest group-hover:bg-brand group-hover:text-dark transition-all duration-300 italic uppercase font-bold">Register Now</button>
+                <button onclick="openRegisterModal('Workshop - ${name}')" class="w-full py-3 rounded-2xl border border-brand/20 text-brand text-[10px] font-bold uppercase tracking-widest group-hover:bg-brand group-hover:text-dark transition-all duration-300 italic">Register Now</button>
             </div>`;
         };
 
@@ -406,6 +413,7 @@
             content.classList.remove('modal-hide-anim');
             content.classList.add('modal-content-anim');
             document.body.style.overflow = 'hidden';
+            toggleMobileMenu(false); // Close menu if open
         }
 
         function closeRegisterModal() {
