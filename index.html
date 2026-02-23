@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- CHECKPOINT-4: DYNAMIC WORKSHOP POPUP REGISTRATION & SMART HOME PACKAGES -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROXTRONICS HUB INDIA | Tata Power EZ Home Partner</title>
@@ -16,7 +17,7 @@
                         brand: '#a3e635', 
                         dark: '#0f172a',
                         surface: '#1e293b',
-                        tata: '#005aab' 
+                        tata: '#005aab'
                     }
                 }
             }
@@ -30,8 +31,6 @@
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(163, 230, 53, 0.1);
-            transform: translateZ(0);
-            backface-visibility: hidden;
         }
 
         @keyframes scroll {
@@ -49,11 +48,10 @@
             inset: 0;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(2, 1fr);
             gap: 2px;
-            opacity: 0.2; 
+            opacity: 0.4; 
             z-index: -1;
-            filter: grayscale(100%) contrast(120%);
+            filter: brightness(0.8) contrast(110%);
             overflow: hidden;
         }
         
@@ -65,16 +63,15 @@
         }
 
         @keyframes panZoom {
-            0% { transform: scale(1); translate: 0 0; }
-            100% { transform: scale(1.1); translate: -1% -1%; }
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
-
-        .hero-bg-collage img:nth-child(even) { animation-duration: 25s; animation-direction: alternate-reverse; }
 
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.05), #2f3c5c);
+            /* Adjusted for better background image visibility */
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.05), #0f172a00);
             z-index: 0;
         }
 
@@ -82,8 +79,6 @@
             background: linear-gradient(to right, #ffffff, #a3e635);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            padding-right: 0.1em; 
-            display: inline-block;
         }
 
         .card-hover:hover {
@@ -92,398 +87,434 @@
             transform: translateY(-5px);
         }
 
-        #mobile-menu {
-            transition: transform 0.3s ease-in-out;
+        .page-node { 
+            transition: opacity 0.3s ease-in-out;
+            min-height: 85vh;
         }
-        .menu-open {
-            transform: translateX(0) !important;
-        }
-
-        /* Form Loader Animation */
-        .loader {
-            border-top-color: #0f172a;
-            animation: spinner 0.8s linear infinite;
-        }
-        @keyframes spinner {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .hidden-page { display: none; opacity: 0; }
+        
+        .active-nav {
+            color: #a3e635 !important;
+            border-bottom: 2px solid #a3e635;
         }
 
-        /* Floating WhatsApp Styles */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: #25d366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 20px rgba(0,0,0,0.3);
-            z-index: 150;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            transition: all 0.3s ease;
+        .skeleton {
+            background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
         }
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            background-color: #128c7e;
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
-        .whatsapp-pulse {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background: #25d366;
-            border-radius: 50%;
-            z-index: -1;
-            animation: pulse-green 2s infinite;
+
+        /* Modal Base Style */
+        .modal-base { 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            opacity: 0; 
+            visibility: hidden; 
+            pointer-events: none;
         }
-        @keyframes pulse-green {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-        }
+        .modal-show { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .modal-content-anim { transform: scale(1); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .modal-hide-anim { transform: scale(0.9); }
     </style>
 </head>
 <body class="bg-dark text-slate-300 overflow-x-hidden">
 
-    <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/917987315017?text=Hello%20Roxtronics%20Hub%20India,%20I%20am%20interested%20in%20your%20services." 
-       target="_blank" class="whatsapp-float">
-        <div class="whatsapp-pulse"></div>
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
     <!-- Announcement Bar -->
     <div class="fixed top-0 w-full z-[110] bg-brand text-dark py-1.5 overflow-hidden border-b border-dark/10">
         <div class="animate-scroll font-bold text-[10px] md:text-xs uppercase tracking-[0.2em]">
-            🔥 Special Launch Offer: FLAT 50% OFF on all AMC Services & Industrial Automations until 20th March! &nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp; 🏠 Authorized Channel Partner of TATA POWER EZ HOME &nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp; 🛠️ Experts in CNC Laser Maintenance & Medical Tech
+            🔥 Special Launch Offer: FLAT 50% OFF on all AMC Services until 20th March! &nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp; 🏠 Authorized Partner of TATA POWER EZ HOME &nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp; 🛠️ Experts in CNC Laser & Medical Tech
         </div>
     </div>
 
     <!-- Navigation -->
     <nav class="fixed top-[32px] w-full z-[100] glass py-3 px-6 md:px-12 flex justify-between items-center h-[70px]">
-        <div class="flex items-center space-x-3 shrink-0">
+        <div class="flex items-center space-x-3 shrink-0 cursor-pointer" onclick="showPage('home')">
             <div class="h-10 flex items-center">
-                <img src="rhi.png" alt="RdHi Logo" class="h-full w-auto" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block'">
-                <span class="text-brand font-black text-2xl hidden italic leading-none">RHi</span>
+                <img src="rhi.png" alt="RHi Logo" class="h-full w-auto" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block'">
+                <span class="text-brand font-black text-2xl hidden italic leading-none uppercase">RHi</span>
             </div>
-            <div class="hidden sm:block leading-none border-l border-white/10 pl-3">
+            <div class="hidden sm:block leading-none border-l border-white/10 pl-3 text-left">
                 <span class="text-white font-extrabold tracking-tight text-lg block uppercase">Roxtronics Hub</span>
                 <p class="text-[10px] text-brand font-bold tracking-[0.2em] uppercase">India</p>
             </div>
         </div>
 
-        <div class="hidden md:flex space-x-8 text-[11px] font-bold uppercase tracking-[0.2em] items-center">
-            <a href="#home" class="text-white hover:text-brand transition">Home</a>
-            <a href="#services" class="hover:text-brand transition">Services</a>
-            <a href="#home-auto" class="text-brand hover:underline underline-offset-4">Smart Home</a>
-            <a href="#about" class="hover:text-brand transition">Expertise</a>
-            <a href="#contact" class="bg-brand text-dark px-5 py-2 rounded-full hover:scale-105 transition-all">Inquiry</a>
+        <div class="hidden md:flex space-x-8 text-[11px] font-bold uppercase tracking-[0.2em] items-center text-left">
+            <button onclick="showPage('home')" id="nav-home" class="nav-btn text-white hover:text-brand transition uppercase font-bold">Home</button>
+            <button onclick="showPage('services')" id="nav-services" class="nav-btn hover:text-brand transition uppercase font-bold">Services</button>
+            <button onclick="showPage('smarthome')" id="nav-smarthome" class="nav-btn hover:text-brand transition uppercase font-bold">Smart Home</button>
+            <button onclick="showPage('workshops')" id="nav-workshops" class="nav-btn hover:text-brand transition uppercase font-bold">Workshops</button>
+            <button onclick="openRegisterModal('General Inquiry')" id="nav-register" class="bg-brand text-dark px-5 py-2 rounded-full hover:scale-105 transition-all font-bold uppercase">Register Now</button>
         </div>
 
         <button id="menu-btn" class="md:hidden text-brand text-2xl p-2"><i class="fas fa-bars"></i></button>
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-surface z-[120] transform translate-x-full shadow-2xl md:hidden">
+    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-surface z-[120] transform translate-x-full shadow-2xl md:hidden transition-transform duration-300">
         <div class="flex flex-col h-full p-8">
             <div class="flex justify-between items-center mb-12">
-                <span class="text-brand font-black text-xl italic">RHi</span>
+                <span class="text-brand font-black text-xl italic uppercase">RHi</span>
                 <button id="close-btn" class="text-slate-400 text-2xl"><i class="fas fa-times"></i></button>
             </div>
-            <div class="flex flex-col space-y-8 text-sm font-bold uppercase tracking-widest">
-                <a href="#home" class="mobile-link text-white">Home</a>
-                <a href="#services" class="mobile-link text-slate-400">Services</a>
-                <a href="#home-auto" class="mobile-link text-brand">Home Automation</a>
-                <a href="#about" class="mobile-link text-slate-400">Expertise</a>
-                <a href="#contact" class="mobile-link bg-brand text-dark px-4 py-3 rounded-xl text-center">Inquiry</a>
+            <div class="flex flex-col space-y-8 text-sm font-bold uppercase tracking-widest text-left">
+                <button onclick="showPage('home')" class="text-left text-white">Home</button>
+                <button onclick="showPage('services')" class="text-left text-slate-400">Services</button>
+                <button onclick="showPage('smarthome')" class="text-left text-slate-400">Smart Home</button>
+                <button onclick="showPage('workshops')" class="text-left text-slate-400">Workshops</button>
+                <button onclick="openRegisterModal('General Inquiry')" class="bg-brand text-dark px-4 py-3 rounded-xl text-center">Register Now</button>
             </div>
         </div>
     </div>
     <div id="menu-backdrop" class="fixed inset-0 bg-black/60 z-[115] hidden backdrop-blur-sm"></div>
 
-    <!-- Hero Section -->
-    <section id="home" class="relative min-h-screen flex items-center justify-center pt-32 px-6 overflow-hidden">
-        <div class="hero-bg-collage">
-            <img src="https://lh3.googleusercontent.com/p/AF1QipO7hCycqLV1ynheStBc_-23JYAMWPVFkNDGLTeD=s1360-w1360-h1020-rw" class="collage-img" alt="Gallery 1">
-            <img src="https://lh3.googleusercontent.com/p/AF1QipP7tblWQjQFwg5jUJZnHv-swgyxBZivPh-5p0Qk=s1360-w1360-h1020-rw" class="collage-img" alt="Gallery 2">
-            <img src="https://lh3.googleusercontent.com/p/AF1QipPBv6gMUr8hcgUCdLy7WoXgk79e6yTaOO6zWihV=s1360-w1360-h1020-rw" class="collage-img" alt="Gallery 3">
-            <img src="https://lh3.googleusercontent.com/p/AF1QipMCYja8Az7H0wR87S1dc7RbUYeHbAoO3CCtT24h=s1360-w1360-h1020-rw" class="collage-img" alt="Gallery 4">
-            <img src="https://lh3.googleusercontent.com/p/AF1QipNOLcPQtXSDWJaslPGAE7JmSTLJO8etojQo2y4R=s1360-w1360-h1020-rw" class="collage-img" alt="Gallery 5">
-            <img src="https://lh3.googleusercontent.com/p/AF1QipMVmHKOwzOl5x7PRwhCvIIiAPzdTZjg5dRKMUDQ=s1360-w1360-h1020-rw" class="collage-img" alt="Gallery 6">
-            <img src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweq5N7VKQ4dH7hhWCYMM6Pxe-bPDSHDFkmvkKbGhpdAkS4abA3mu2RfM9oIvCwxDmJ_NKdPfIU3nxgm8bpMLz-EKMDYXIhWmA5UUraeTLiLc3LOmgVQVqpPDDWLz_Y6OJhi2D9GP-w=s1360-w1360-h1020-rw" class="collage-img" alt="Gallery 7">
-            <img src="https://lh3.googleusercontent.com/p/AF1QipMf7udVLqJzVysYGfD62b01ooHrZzHSMguwpNQQ=s1360-w1360-h1020-rw" class="collage-img" alt="Gallery 8">
+    <!-- PAGE 1: HOME -->
+    <main id="page-home" class="page-node pt-32">
+        <section id="hero" class="relative min-h-[80vh] flex items-center justify-center px-6 overflow-hidden">
+            <div class="hero-bg-collage">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipO7hCycqLV1ynheStBc_-23JYAMWPVFkNDGLTeD=s1360" class="collage-img" alt="G1">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipP7tblWQjQFwg5jUJZnHv-swgyxBZivPh-5p0Qk=s1360" class="collage-img" alt="G2">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipPBv6gMUr8hcgUCdLy7WoXgk79e6yTaOO6zWihV=s1360" class="collage-img" alt="G3">
+                <img src="https://lh3.googleusercontent.com/p/AF1QipMCYja8Az7H0wR87S1dc7RbUYeHbAoO3CCtT24h=s1360" class="collage-img" alt="G4">
+            </div>
+            <div class="hero-overlay"></div>
+            <div class="max-w-6xl w-full text-center md:text-left grid md:grid-cols-5 gap-12 items-center relative z-10">
+                <div class="md:col-span-3 text-left">
+                    <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white leading-[1.2] mb-6 italic uppercase text-left">
+                        Future of <span class="gradient-text">Automation</span> is here.
+                    </h1>
+                    <p class="text-slate-300 text-lg md:text-xl max-w-xl mb-10 leading-relaxed text-left italic">"Precision engineering services for Industrial CNC, Smart Home integration, and Medical Tech."</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
+                        <button onclick="showPage('smarthome')" class="bg-brand text-dark px-10 py-4 rounded-full font-bold text-xs uppercase tracking-widest hover:scale-105 transition shadow-lg">Smart Solutions</button>
+                        <button onclick="showPage('services')" class="text-white border border-white/20 px-10 py-4 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition">Industrial Tech</button>
+                    </div>
+                </div>
+                <div class="md:col-span-2 hidden md:flex justify-center">
+                    <img src="rhi.png" alt="Logo" class="w-full max-w-[320px] drop-shadow-[0_0_50px_rgba(163,230,53,0.4)]" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PAGE 2: SERVICES (STATIC) -->
+    <main id="page-services" class="page-node hidden-page pt-32 px-6">
+        <div class="max-w-7xl mx-auto py-12">
+            <h1 class="text-5xl md:text-7xl font-black text-white italic mb-12 uppercase text-left italic font-bold">Professional <span class="text-brand">Services</span></h1>
+            <div class="grid md:grid-cols-3 gap-8 text-left">
+                <div class="bg-surface/30 p-10 rounded-[3rem] border border-white/5 card-hover group transition-all duration-300">
+                    <div class="w-12 h-12 bg-brand/10 text-brand rounded-2xl flex items-center justify-center mb-6"><i class="fas fa-crosshairs text-xl"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold">CNC Maintenance</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed text-left italic font-medium uppercase font-bold">Advanced Fiber aur CO2 laser systems ki servicing. Hum beam alignment aur laser source optimization ke expert hain.</p>
+                </div>
+                <div class="bg-surface/30 p-10 rounded-[3rem] border border-white/5 card-hover group transition-all duration-300">
+                    <div class="w-12 h-12 bg-brand/10 text-brand rounded-2xl flex items-center justify-center mb-6"><i class="fas fa-robot text-xl"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold">Industrial PLC</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed text-left italic font-medium uppercase font-bold">Automation logic programming using Siemens, Delta, aur Mitsubishi PLCs. Customized production line systems.</p>
+                </div>
+                <div class="bg-surface/30 p-10 rounded-[3rem] border border-white/5 card-hover group transition-all duration-300">
+                    <div class="w-12 h-12 bg-brand/10 text-brand rounded-2xl flex items-center justify-center mb-6"><i class="fas fa-heartbeat text-xl"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold">Medical Tech</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed text-left italic font-medium uppercase font-bold">Surgical devices aur lab equipment ki high-precision calibration aur maintenance services provided for hospitals.</p>
+                </div>
+            </div>
         </div>
-        <div class="hero-overlay"></div>
+    </main>
 
-        <div class="max-w-6xl w-full text-center md:text-left grid md:grid-cols-5 gap-12 items-center relative z-10">
-            <div class="md:col-span-3">
-                <div class="inline-flex items-center space-x-2 bg-brand/10 border border-brand/20 rounded-full px-4 py-1 mb-6">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-brand"></span>
-                    </span>
-                    <span class="text-[10px] font-bold text-brand uppercase tracking-widest">Industry 4.0 & Smart Living</span>
-                </div>
-                <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white leading-[1.2] mb-6 italic">
-                    Innovating <span class="gradient-text">Automation</span> with Precision.
-                </h1>
-                <p class="text-slate-300 text-lg md:text-xl max-w-xl mb-10 leading-relaxed drop-shadow-md">
-                    Authorized Partner of <strong>Tata Power EZ Home</strong>. Delivering excellence in Industrial Robotics, CNC Lasers, and Medical Devices.
-                </p>
-                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
-                    <a href="#home-auto" class="bg-brand text-dark px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:scale-105 transition shadow-[0_0_30px_rgba(163,230,53,0.3)] text-center text-xs">Smart Home Solutions</a>
-                    <a href="#services" class="text-white border border-white/20 backdrop-blur-md px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-white/10 transition text-center text-xs">Industrial Services</a>
-                </div>
-            </div>
-            <div class="md:col-span-2 hidden md:flex justify-center relative">
-                <div class="absolute inset-0 bg-brand/20 blur-[100px] rounded-full"></div>
-                <img src="rhi.png" alt="Logo" class="relative z-10 w-full max-w-[320px] drop-shadow-[0_0_50px_rgba(163,230,53,0.4)]" onerror="this.style.display='none'">
-            </div>
-        </div>
-    </section>
-
-    <!-- TATA POWER EZ HOME SECTION -->
-    <section id="home-auto" class="py-24 px-6 bg-gradient-to-b from-dark to-[#0a1122]">
-        <div class="max-w-7xl mx-auto">
-            <div class="bg-surface/40 border border-white/5 rounded-[3rem] p-8 md:p-16 flex flex-col lg:flex-row items-center gap-12 mb-16 relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-8 opacity-10">
-                    <i class="fas fa-home text-9xl"></i>
-                </div>
-                
-                <div class="lg:w-2/5 flex flex-col items-center lg:items-start">
-                    <div class="bg-white p-4 rounded-2xl mb-8 inline-block shadow-lg">
-                        <img src="tp.jpeg" alt="Tata Power EZ Home Logo" class="h-16 w-auto" onerror="this.src='https://via.placeholder.com/200x80?text=Tata+Power+EZ+Home'">
-                    </div>
-                    <div class="bg-brand/10 text-brand px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Official Channel Partner</div>
-                    <h2 class="text-4xl font-extrabold text-white text-center lg:text-left leading-tight">Smart Living with <span class="text-brand">EZ HOME</span></h2>
-                </div>
-
-                <div class="lg:w-3/5 border-l border-white/10 lg:pl-12">
-                    <p class="text-slate-300 text-lg leading-relaxed mb-8 italic">
-                        "Experience the next generation of home automation. Roxtronics Hub India brings you the power of Tata Power EZ Home – a sustainable, secure, and energy-efficient way to control your world."
-                    </p>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                        <div class="text-center md:text-left">
-                            <i class="fas fa-mobile-alt text-brand mb-2 text-xl"></i>
-                            <p class="text-[10px] font-bold text-white uppercase tracking-tighter">App Control</p>
-                        </div>
-                        <div class="text-center md:text-left">
-                            <i class="fas fa-leaf text-brand mb-2 text-xl"></i>
-                            <p class="text-[10px] font-bold text-white uppercase tracking-tighter">Eco-Friendly</p>
-                        </div>
-                        <div class="text-center md:text-left">
-                            <i class="fas fa-shield-alt text-brand mb-2 text-xl"></i>
-                            <p class="text-[10px] font-bold text-white uppercase tracking-tighter">Secured IoT</p>
-                        </div>
+    <!-- PAGE 3: SMART HOME -->
+    <main id="page-smarthome" class="page-node hidden-page pt-32 px-6 text-left">
+        <div class="max-w-7xl mx-auto py-12">
+            <!-- Header Section -->
+            <div class="bg-white/5 border border-white/10 rounded-[4rem] p-12 relative overflow-hidden text-center md:text-left mb-16">
+                <div class="relative z-10 flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2 text-left">
+                        <img src="tp.jpeg" alt="Tata Power" class="h-16 w-auto bg-white p-2 rounded-lg mb-8 mx-auto md:mx-0">
+                        <h1 class="text-5xl font-black text-white mb-6 uppercase italic text-left font-bold">Tata Power <br><span class="text-brand">EZ HOME</span></h1>
+                        <p class="text-lg text-slate-300 italic mb-8 text-left uppercase font-bold">"Official authorized partner for smart home automation. Secured, energy-efficient aur reliable."</p>
+                        <button onclick="openRegisterModal('Tata Power EZ Home Setup')" class="bg-brand text-dark px-10 py-4 rounded-full font-bold uppercase text-xs tracking-widest shadow-lg">Inquiry Now</button>
                     </div>
                 </div>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-surface/20 p-8 rounded-3xl border border-white/5 card-hover group">
-                    <div class="w-12 h-12 bg-dark rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand transition-colors">
-                        <i class="fas fa-lightbulb text-brand group-hover:text-dark"></i>
+            <!-- Packages Section -->
+            <h2 class="text-4xl font-black text-white mb-12 uppercase italic text-left">Smart Home <span class="text-brand">Packages</span></h2>
+            <div class="grid md:grid-cols-3 gap-8 text-left">
+                <!-- 1BHK Package -->
+                <div class="bg-surface/40 p-10 rounded-[3rem] border border-white/5 card-hover flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="bg-brand/10 text-brand px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic font-bold">1BHK Setup</span>
+                        <div class="text-right">
+                            <p class="text-brand font-black text-2xl italic leading-none">₹7,999/-</p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Smart Lighting</h3>
-                    <p class="text-slate-400 text-sm">Control lights, set moods, and schedule lighting from anywhere in the world using the EZ Home App.</p>
-                </div>
-                <div class="bg-surface/20 p-8 rounded-3xl border border-white/5 card-hover group">
-                    <div class="w-12 h-12 bg-dark rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand transition-colors">
-                        <i class="fas fa-plug text-brand group-hover:text-dark"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Energy Monitoring</h3>
-                    <p class="text-slate-400 text-sm">Real-time energy consumption tracking to help you reduce bills and move towards a greener future.</p>
-                </div>
-                <div class="bg-surface/20 p-8 rounded-3xl border border-white/5 card-hover group">
-                    <div class="w-12 h-12 bg-dark rounded-xl flex items-center justify-center mb-6 group-hover:bg-brand transition-colors">
-                        <i class="fas fa-microphone text-brand group-hover:text-dark"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Voice Control</h3>
-                    <ul class="text-slate-400 text-sm space-y-2">
-                        <li><i class="fab fa-amazon text-brand mr-2"></i> Works with Alexa</li>
-                        <li><i class="fab fa-google text-brand mr-2"></i> Works with Google Home</li>
+                    <h3 class="text-xl font-bold text-white mb-6 uppercase italic font-bold">What will be covered:</h3>
+                    <ul class="space-y-4 mb-10 flex-grow">
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Fan Control</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Lighting</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart TV Control</li>
                     </ul>
+                    <div class="space-y-3">
+                        <button onclick="openRegisterModal('Smart Home - 1BHK Package')" class="w-full py-4 rounded-2xl bg-brand text-dark font-black uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-lg">Book Now</button>
+                        <button onclick="openRegisterModal('Free Demo - 1BHK Setup')" class="w-full py-3 rounded-2xl border border-brand/30 text-brand font-bold uppercase text-[10px] tracking-widest hover:bg-brand/10 transition-all italic">Book Free Demo Now</button>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Services Section -->
-    <section id="services" class="py-24 px-6 bg-[#080d1a]">
-        <div class="max-w-7xl mx-auto text-center mb-16">
-            <h2 class="text-4xl font-bold text-white mb-4 italic">Industrial & Medical Excellence</h2>
-            <div class="w-24 h-1 bg-brand mx-auto"></div>
-        </div>
-        <div class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto"> 
-            <div class="bg-surface/50 p-8 rounded-3xl border border-white/5 card-hover">
-                <i class="fas fa-robot text-3xl text-brand mb-6"></i>
-                <h3 class="text-xl font-bold text-white mb-4">Industrial Automation</h3>
-                <p class="text-sm text-slate-500">PLC programming, robotic arm integration, and smart manufacturing line automation.</p>
-            </div>
-            <div class="bg-surface/50 p-8 rounded-3xl border border-white/5 card-hover">
-                <i class="fas fa-crosshairs text-3xl text-brand mb-6"></i>
-                <h3 class="text-xl font-bold text-white mb-4">CNC Laser Service</h3>
-                <p class="text-sm text-slate-500">Fiber optics, CO2 laser maintenance, and specialized industrial fabricator servicing.</p>
-            </div>
-            <div class="bg-surface/50 p-8 rounded-3xl border border-white/5 card-hover">
-                <i class="fas fa-heartbeat text-3xl text-brand mb-6"></i>
-                <h3 class="text-xl font-bold text-white mb-4">Medical Devices</h3>
-                <p class="text-sm text-slate-500">Certified maintenance and calibration for high-precision diagnostic and surgical devices.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Expertise Stats -->
-    <section id="about" class="py-16 px-6 border-y border-white/5">
-        <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-            <div><div class="text-4xl font-extrabold text-brand mb-1">2931</div><div class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500">Core Code</div></div>
-            <div><div class="text-4xl font-extrabold text-white mb-1">100+</div><div class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500">Smart Homes</div></div>
-            <div><div class="text-4xl font-extrabold text-white mb-1">24/7</div><div class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500">Hub Support</div></div>
-            <div><div class="text-4xl font-extrabold text-white mb-1">Elite</div><div class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500">Engineering</div></div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-24 px-6 bg-[#0c1220]">
-        <div class="max-w-5xl mx-auto">
-            <div class="bg-surface/30 p-8 md:p-16 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
-                    <img src="rhi.png" alt="bg-logo" class="w-64" onerror="this.style.display='none'">
-                </div>
-                
-                <div class="relative z-10 grid md:grid-cols-2 gap-16">
-                    <div>
-                        <h2 class="text-4xl font-extrabold text-white mb-6 flex items-center flex-wrap gap-x-4">
-                            <span>Partner with</span>
-                            <div class="inline-flex items-center">
-                                <img src="rhi.png" alt="Logo" class="h-10 md:h-12 w-auto" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline-block'">
-                                <span class="text-brand italic font-black text-4xl hidden leading-none uppercase">RHi</span>
-                            </div>
-                        </h2>
-                        <p class="text-slate-400 mb-10 text-lg">Send us your technical requirements and our engineers will get back to you within 4 hours.</p>
-                        <div class="space-y-6 text-left">
-                            <div class="flex items-center space-x-6">
-                                <div class="bg-brand text-dark p-3 rounded-xl"><i class="fas fa-phone-alt"></i></div>
-                                <span class="text-white font-bold tracking-widest">+91 7987315017</span>
-                            </div>
-                            <div class="flex items-center space-x-6">
-                                <div class="bg-brand text-dark p-3 rounded-xl"><i class="fas fa-envelope"></i></div>
-                                <span class="text-white font-bold tracking-widest text-sm">roxtronicshub@gmail.com</span>
-                            </div>
+                <!-- 2BHK Package -->
+                <div class="bg-surface/40 p-10 rounded-[3rem] border border-brand/20 card-hover flex flex-col h-full relative overflow-hidden shadow-[0_0_30px_rgba(163,230,53,0.05)]">
+                    <div class="absolute -right-12 top-6 bg-brand text-dark text-[10px] font-black uppercase py-1 w-44 text-center rotate-45">Popular Choice</div>
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="bg-brand/10 text-brand px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic font-bold">2BHK Setup</span>
+                        <div class="text-right">
+                            <p class="text-brand font-black text-2xl italic leading-none">₹14,999/-</p>
                         </div>
                     </div>
-                    
-                    <div>
-                        <form id="dataForm" class="space-y-4">
-                            <input type="text" name="name" placeholder="Your Name" required 
-                                class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 focus:border-brand outline-none transition text-white">
-                            <input type="email" name="email" placeholder="Business Email" required 
-                                class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 focus:border-brand outline-none transition text-white">
-                            <select name="service" required 
-                                class="w-full bg-dark border border-white/10 rounded-2xl p-4 focus:border-brand outline-none transition text-slate-400">
-                                <option value="" disabled selected>Select Service</option>
-                                <option>Home Automation (TATA EZ Home)</option>
-                                <option>CNC Laser Maintenance</option>
-                                <option>Medical Device Repair</option>
-                                <option>Industrial Robotics</option>
-                            </select>
-                            <textarea name="message" rows="4" placeholder="Brief about the problem/project" required 
-                                class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 focus:border-brand outline-none transition text-white"></textarea>
-                            <button type="submit" id="submitBtn" 
-                                class="w-full bg-brand text-dark font-black py-4 rounded-2xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition flex justify-center items-center">
-                                <span id="btnText">Submit Inquiry</span>
-                                <div id="loader" class="hidden loader ease-linear rounded-full border-2 border-t-2 border-slate-800 h-5 w-5 ml-3"></div>
-                            </button>
-                        </form>
-                        <div id="responseMsg" class="mt-4 p-4 rounded-2xl hidden text-center font-bold text-sm uppercase"></div>
+                    <h3 class="text-xl font-bold text-white mb-6 uppercase italic font-bold">What will be covered:</h3>
+                    <ul class="space-y-4 mb-10 flex-grow">
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Fan & Lights</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart TV Control</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> LED Conceal Light Control</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Dimmers</li>
+                    </ul>
+                    <div class="space-y-3">
+                        <button onclick="openRegisterModal('Smart Home - 2BHK Package')" class="w-full py-4 rounded-2xl bg-brand text-dark font-black uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-lg">Book Now</button>
+                        <button onclick="openRegisterModal('Free Demo - 2BHK Setup')" class="w-full py-3 rounded-2xl border border-brand/30 text-brand font-bold uppercase text-[10px] tracking-widest hover:bg-brand/10 transition-all italic">Book Free Demo Now</button>
+                    </div>
+                </div>
+
+                <!-- 3BHK Package -->
+                <div class="bg-surface/40 p-10 rounded-[3rem] border border-white/5 card-hover flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="bg-brand/10 text-brand px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic font-bold">3BHK Setup</span>
+                        <div class="text-right">
+                            <p class="text-brand font-black text-2xl italic leading-none">₹28,999/-</p>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-6 uppercase italic font-bold">What will be covered:</h3>
+                    <ul class="space-y-4 mb-10 flex-grow">
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Fan, Lights & TV Control</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart AC/Geyser Control</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> LED Conceal Light Control</li>
+                        <li class="flex items-center gap-3 text-slate-400 font-bold uppercase text-xs italic"><i class="fas fa-check-circle text-brand"></i> Smart Dimmers</li>
+                    </ul>
+                    <div class="space-y-3">
+                        <button onclick="openRegisterModal('Smart Home - 3BHK Package')" class="w-full py-4 rounded-2xl bg-brand text-dark font-black uppercase text-xs tracking-widest hover:scale-105 transition-all shadow-lg">Book Now</button>
+                        <button onclick="openRegisterModal('Free Demo - 3BHK Setup')" class="w-full py-3 rounded-2xl border border-brand/30 text-brand font-bold uppercase text-[10px] tracking-widest hover:bg-brand/10 transition-all italic">Book Free Demo Now</button>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
+
+    <!-- PAGE 4: WORKSHOPS -->
+    <main id="page-workshops" class="page-node hidden-page pt-32 px-6 text-left">
+        <div class="max-w-7xl mx-auto py-12">
+            <h1 class="text-5xl md:text-7xl font-black text-white italic mb-12 uppercase text-left italic font-bold">Live <span class="text-brand">Workshops</span></h1>
+            <div id="workshops-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                <div class="skeleton h-64 rounded-[3rem]"></div>
+                <div class="skeleton h-64 rounded-[3rem]"></div>
+                <div class="skeleton h-64 rounded-[3rem]"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- REGISTRATION MODAL (POPUP) -->
+    <div id="register-modal" class="fixed inset-0 z-[250] flex items-center justify-center p-4 modal-base">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeRegisterModal()"></div>
+        <div class="bg-surface border border-white/10 p-8 md:p-12 rounded-[4rem] max-w-2xl w-full relative z-10 shadow-2xl modal-hide-anim overflow-y-auto max-h-[90vh]">
+            <button onclick="closeRegisterModal()" class="absolute top-8 right-8 text-slate-500 hover:text-white transition"><i class="fas fa-times text-2xl"></i></button>
+            <h2 class="text-4xl font-black text-white mb-2 italic uppercase font-bold uppercase">Register <span class="text-brand">Now</span></h2>
+            <p id="reg-subtitle" class="text-slate-400 mb-8 italic uppercase text-xs font-bold tracking-widest">Inquiry for: <span class="text-brand" id="selected-service-text">General Inquiry</span></p>
+            
+            <form id="popup-registration-form" class="space-y-4" onsubmit="handleRegistration(event)">
+                <!-- Category is now dynamic -->
+                <input type="hidden" id="form-category" name="category" value="General Inquiry">
+                
+                <input type="text" id="form-name" name="name" required placeholder="Full Name" class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand transition-all">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input type="tel" id="form-contact" name="contact" required placeholder="Contact Number" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all">
+                    <input type="email" id="form-email" name="email" required placeholder="Email Address" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all">
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input type="text" id="form-city" name="city" required placeholder="City" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all">
+                    <input type="text" id="form-state" name="state" required placeholder="State" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all">
+                </div>
+
+                <textarea id="form-message" name="message" rows="3" placeholder="How can we help you?" class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand transition-all"></textarea>
+                
+                <button id="submit-btn" class="w-full bg-brand text-dark font-black py-4 rounded-2xl uppercase tracking-widest hover:scale-[1.02] transition shadow-lg flex justify-center items-center gap-2 font-bold italic uppercase">
+                    Submit Registration
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div id="success-modal" class="fixed inset-0 z-[300] flex items-center justify-center p-6 modal-base">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeSuccessModal()"></div>
+        <div class="bg-surface border border-brand/20 p-10 rounded-[3.5rem] max-w-md w-full relative z-10 text-center shadow-2xl modal-hide-anim">
+            <div class="w-20 h-20 bg-brand/10 text-brand rounded-full flex items-center justify-center mx-auto mb-6"><i class="fas fa-check text-4xl"></i></div>
+            <h2 class="text-3xl font-black text-white italic mb-4 uppercase italic">Success!</h2>
+            <p class="text-slate-400 mb-8 leading-relaxed italic text-sm">"Inquiry Registered Successfully." Hamari team jald hi aapse sampark karegi.</p>
+            <button onclick="closeSuccessModal()" class="w-full bg-brand text-dark font-black py-4 rounded-2xl uppercase tracking-widest shadow-lg hover:scale-105 transition font-bold italic uppercase">Great!</button>
+        </div>
+    </div>
+
+    <!-- SHARED FOOTER -->
+    <footer class="py-12 bg-dark text-center border-t border-white/5">
+        <p class="text-[10px] uppercase tracking-[0.5em] text-slate-600 font-bold italic uppercase leading-relaxed tracking-widest font-bold">&copy; 2024 ROXTRONICS HUB INDIA | CHECKPOINT-4</p>
+    </footer>
 
     <script>
-        // Animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQgabxM2-B4Uz1S4xAj1mJdMUDW9OFtYosBPUJfhb1HGKnW0vmnTk9h1dl5c8EgZ6c/exec'; 
+
+        async function fetchData(sheetName, containerId, renderFn) {
+            const container = document.getElementById(containerId);
+            if (!SCRIPT_URL || SCRIPT_URL.includes('YOUR_APPS_SCRIPT')) {
+                container.innerHTML = `<p class="col-span-full text-center text-slate-500 py-20 italic">Update SCRIPT_URL in code to fetch ${sheetName}.</p>`;
+                return;
+            }
+            try {
+                const fetchUrl = SCRIPT_URL + (SCRIPT_URL.includes('?') ? '&' : '?') + 'sheet=' + encodeURIComponent(sheetName);
+                const response = await fetch(fetchUrl);
+                const data = await response.json();
+                
+                if (!data || data.length === 0) {
+                    container.innerHTML = `<p class="col-span-full text-center text-slate-500 py-20 italic font-bold">No ${sheetName} found in sheet.</p>`;
+                    return;
                 }
+                
+                container.innerHTML = ''; 
+                data.forEach(item => container.insertAdjacentHTML('beforeend', renderFn(item)));
+            } catch (e) {
+                container.innerHTML = `<p class="col-span-full text-center text-red-400 py-20 uppercase font-bold text-xs italic">Error loading ${sheetName}.</p>`;
+            }
+        }
+
+        const renderWorkshop = (item) => {
+            const name = item.name || item['workshop name'] || "Elite Workshop";
+            const cost = item.cost || item['registration cost.'] || "Free";
+            const description = item.description || "Details soon.";
+            
+            return `
+            <div class="bg-surface/30 p-8 rounded-[3rem] border border-white/5 card-hover group transition-all duration-300 text-left">
+                <div class="flex justify-between items-start mb-6"><div class="bg-brand/10 text-brand px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest font-bold italic">₹${cost}</div><i class="fas fa-calendar-check text-slate-600"></i></div>
+                <h3 class="text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold italic">${name}</h3>
+                <p class="text-slate-400 text-sm mb-8 line-clamp-3 text-left italic uppercase font-bold">${description}</p>
+                <div class="space-y-2 mb-8 border-t border-white/5 pt-4 text-left uppercase">
+                    <div class="flex items-center text-xs text-slate-500 font-bold uppercase"><i class="fas fa-clock w-5 text-brand"></i> ${item.time || 'TBA'}</div>
+                    <div class="flex items-center text-xs text-slate-500 font-bold uppercase"><i class="fas fa-map-marker-alt w-5 text-brand"></i> ${item.venue || 'Online'}</div>
+                </div>
+                <button onclick="openRegisterModal('Workshop - ${name}')" class="w-full py-3 rounded-2xl border border-brand/20 text-brand text-[10px] font-bold uppercase tracking-widest group-hover:bg-brand group-hover:text-dark transition-all duration-300 italic uppercase font-bold">Register Now</button>
+            </div>`;
+        };
+
+        // NEW: Open Popup for Registration
+        function openRegisterModal(serviceName) {
+            const modal = document.getElementById('register-modal');
+            const content = modal.querySelector('div:last-child');
+            const categoryInput = document.getElementById('form-category');
+            const selectedText = document.getElementById('selected-service-text');
+
+            // Set the dynamic category directly from serviceName
+            categoryInput.value = serviceName;
+            selectedText.innerText = serviceName;
+
+            modal.classList.add('modal-show');
+            content.classList.remove('modal-hide-anim');
+            content.classList.add('modal-content-anim');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRegisterModal() {
+            const modal = document.getElementById('register-modal');
+            const content = modal.querySelector('div:last-child');
+            modal.classList.remove('modal-show');
+            content.classList.add('modal-hide-anim');
+            document.body.style.overflow = 'auto';
+        }
+
+        async function handleRegistration(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const form = document.getElementById('popup-registration-form');
+            const formData = new URLSearchParams(new FormData(form));
+            
+            if (SCRIPT_URL.includes('YOUR_APPS_SCRIPT')) {
+                alert("Please add SCRIPT_URL first!");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-circle-notch animate-spin"></i> Processing...';
+
+            try {
+                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: formData });
+                closeRegisterModal();
+                openSuccessModal();
+                form.reset();
+            } catch (error) {
+                alert("Submission failed. Check connection.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Submit Registration';
+            }
+        }
+
+        function openSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            const content = modal.querySelector('div:last-child');
+            modal.classList.add('modal-show');
+            content.classList.remove('modal-hide-anim');
+            content.classList.add('modal-content-anim');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            const content = modal.querySelector('div:last-child');
+            modal.classList.remove('modal-show');
+            content.classList.add('modal-hide-anim');
+            document.body.style.overflow = 'auto';
+        }
+
+        function showPage(pageId) {
+            const pages = ['home', 'services', 'smarthome', 'workshops'];
+            pages.forEach(p => {
+                const el = document.getElementById(`page-${p}`);
+                if(el) el.classList.toggle('hidden-page', p !== pageId);
+                const btn = document.getElementById(`nav-${p}`);
+                if(btn) btn.classList.toggle('active-nav', p === pageId);
             });
-        }, { threshold: 0.1 });
 
-        document.querySelectorAll('section').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(20px)';
-            section.style.transition = 'all 0.6s ease-out';
-            observer.observe(section);
-        });
+            if (pageId === 'workshops') fetchData('Workshops', 'workshops-container', renderWorkshop);
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            toggleMobileMenu(false);
+        }
 
-        // Navigation
-        const menuBtn = document.getElementById('menu-btn');
-        const closeBtn = document.getElementById('close-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const backdrop = document.getElementById('menu-backdrop');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
-
-        const toggleMenu = (show) => {
+        function toggleMobileMenu(show) {
+            const menu = document.getElementById('mobile-menu');
+            const backdrop = document.getElementById('menu-backdrop');
             if (show) {
-                mobileMenu.classList.add('menu-open');
+                menu.classList.remove('translate-x-full');
                 backdrop.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
             } else {
-                mobileMenu.classList.remove('menu-open');
+                menu.classList.add('translate-x-full');
                 backdrop.classList.add('hidden');
                 document.body.style.overflow = 'auto';
             }
-        };
+        }
 
-        if(menuBtn) menuBtn.addEventListener('click', () => toggleMenu(true));
-        if(closeBtn) closeBtn.addEventListener('click', () => toggleMenu(false));
-        if(backdrop) backdrop.addEventListener('click', () => toggleMenu(false));
-        mobileLinks.forEach(link => link.addEventListener('click', () => toggleMenu(false)));
+        document.getElementById('menu-btn')?.addEventListener('click', () => toggleMobileMenu(true));
+        document.getElementById('close-btn')?.addEventListener('click', () => toggleMobileMenu(false));
+        document.getElementById('menu-backdrop')?.addEventListener('click', () => toggleMobileMenu(false));
 
-        // --- GOOGLE SHEETS INTEGRATION ---
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxq3NjbYcVMQdR5nGg8tv2I2ksJGYiLMkIVET89BXRfh8Zdki6CVJofqFf7VOumYJJR/exec';
-        const form = document.getElementById('dataForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('btnText');
-        const loader = document.getElementById('loader');
-        const responseMsg = document.getElementById('responseMsg');
-
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            
-            submitBtn.disabled = true;
-            btnText.innerText = "Processing...";
-            loader.classList.remove('hidden');
-            responseMsg.classList.add('hidden');
-
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                .then(response => {
-                    responseMsg.innerText = "SUCCESS! Inquiry Received.";
-                    responseMsg.className = "mt-4 p-4 rounded-2xl text-center font-bold bg-green-500/20 text-green-400 border border-green-500/30";
-                    responseMsg.classList.remove('hidden');
-                    form.reset();
-                })
-                .catch(error => {
-                    console.error('Error!', error.message);
-                    responseMsg.innerText = "FAILED! Check your internet.";
-                    responseMsg.className = "mt-4 p-4 rounded-2xl text-center font-bold bg-red-500/20 text-red-400 border border-red-500/30";
-                    responseMsg.classList.remove('hidden');
-                })
-                .finally(() => {
-                    submitBtn.disabled = false;
-                    btnText.innerText = "Submit Inquiry";
-                    loader.classList.add('hidden');
-                });
-        });
+        window.onload = () => showPage('home');
     </script>
 </body>
-</html>
+</html> eof
