@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- CHECKPOINT-4: FINAL INTEGRATED VERSION - STATIC SERVICES, TRACKING, & SHADED BANNER -->
+    <!-- CHECKPOINT-5: FINAL INTEGRATED VERSION - PERSISTENT NAVIGATION ON REFRESH -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROXTRONICS HUB INDIA | Tata Power EZ Home Partner</title>
@@ -220,7 +220,7 @@
         </section>
     </main>
 
-    <!-- PAGE 2: SERVICES (REVERTED TO STATIC) -->
+    <!-- PAGE 2: SERVICES (STATIC) -->
     <main id="page-services" class="page-node hidden-page pt-32 px-4 md:px-6">
         <div class="max-w-7xl mx-auto py-12 text-left">
             <h1 class="text-4xl md:text-7xl font-black text-white italic mb-8 md:mb-12 uppercase text-left font-bold">Professional <span class="text-brand">Services</span></h1>
@@ -391,7 +391,7 @@
 
     <!-- SHARED FOOTER -->
     <footer class="py-12 bg-dark text-center border-t border-white/5 px-4">
-        <p class="text-[8px] md:text-[10px] uppercase tracking-[0.3em] text-slate-600 font-bold italic leading-relaxed font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold">&copy; 2024 ROXTRONICS HUB INDIA | CHECKPOINT-4</p>
+        <p class="text-[8px] md:text-[10px] uppercase tracking-[0.3em] text-slate-600 font-bold italic leading-relaxed font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold">&copy; 2024 ROXTRONICS HUB INDIA | CHECKPOINT-5</p>
     </footer>
 
     <!-- REGISTRATION MODAL -->
@@ -580,8 +580,10 @@
             document.body.style.overflow = 'auto';
         }
 
-        function showPage(pageId) {
+        function showPage(pageId, updateHash = true) {
             const pages = ['home', 'services', 'smarthome', 'workshops', 'status'];
+            if (!pages.includes(pageId)) pageId = 'home';
+
             pages.forEach(p => {
                 const el = document.getElementById(`page-${p}`);
                 if(el) el.classList.toggle('hidden-page', p !== pageId);
@@ -591,6 +593,9 @@
             
             if (pageId === 'workshops') fetchData('Workshops', 'workshops-container', renderWorkshop);
             
+            // Persist page in URL
+            if (updateHash) window.location.hash = pageId;
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
             toggleMobileMenu(false);
         }
@@ -613,7 +618,17 @@
         document.getElementById('close-btn')?.addEventListener('click', () => toggleMobileMenu(false));
         document.getElementById('menu-backdrop')?.addEventListener('click', () => toggleMobileMenu(false));
 
-        window.onload = () => showPage('home');
+        // Load correct page based on URL hash or default to home
+        window.onload = () => {
+            const savedPage = window.location.hash.replace('#', '');
+            showPage(savedPage || 'home', false);
+        };
+
+        // Handle browser back/forward buttons
+        window.onhashchange = () => {
+            const hash = window.location.hash.replace('#', '');
+            showPage(hash || 'home', false);
+        };
     </script>
 </body>
 </html>
