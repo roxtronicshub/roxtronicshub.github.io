@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- CHECKPOINT-4: FINAL INTEGRATED VERSION - DYNAMIC SERVICES, TRACKING, & SHADED BANNER -->
+    <!-- CHECKPOINT-4: FINAL INTEGRATED VERSION - STATIC SERVICES, TRACKING, & SHADED BANNER -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROXTRONICS HUB INDIA | Tata Power EZ Home Partner</title>
@@ -220,15 +220,38 @@
         </section>
     </main>
 
-    <!-- PAGE 2: SERVICES (NOW DYNAMIC) -->
+    <!-- PAGE 2: SERVICES (REVERTED TO STATIC) -->
     <main id="page-services" class="page-node hidden-page pt-32 px-4 md:px-6">
         <div class="max-w-7xl mx-auto py-12 text-left">
-            <h1 class="text-4xl md:text-7xl font-black text-white italic mb-8 md:mb-12 uppercase text-left font-bold font-bold">Professional <span class="text-brand">Services</span></h1>
-            <div id="services-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 text-left">
-                <!-- Skeletons while loading -->
-                <div class="skeleton h-64 rounded-[2.5rem] md:rounded-[3rem]"></div>
-                <div class="skeleton h-64 rounded-[2.5rem] md:rounded-[3rem]"></div>
-                <div class="skeleton h-64 rounded-[2.5rem] md:rounded-[3rem]"></div>
+            <h1 class="text-4xl md:text-7xl font-black text-white italic mb-8 md:mb-12 uppercase text-left font-bold">Professional <span class="text-brand">Services</span></h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 text-left">
+                <!-- Static Service 1 -->
+                <div class="bg-surface/30 p-8 lg:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/5 card-hover group transition-all duration-300 text-left flex flex-col h-full font-bold">
+                    <div class="w-12 h-12 bg-brand/10 text-brand rounded-2xl flex items-center justify-center mb-6"><i class="fas fa-crosshairs text-xl"></i></div>
+                    <h3 class="text-xl md:text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold italic">CNC Maintenance</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed text-left italic font-bold flex-grow mb-8">Advanced Fiber aur CO2 laser systems ki servicing. Hum beam alignment aur laser source optimization ke expert hain.</p>
+                    <button onclick="openRegisterModal('Service - CNC Maintenance')" class="w-full py-3 rounded-2xl border border-brand/20 text-brand text-[10px] font-bold uppercase tracking-widest group-hover:bg-brand group-hover:text-dark transition-all duration-300 italic">
+                        Book Inquiry
+                    </button>
+                </div>
+                <!-- Static Service 2 -->
+                <div class="bg-surface/30 p-8 lg:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/5 card-hover group transition-all duration-300 text-left flex flex-col h-full font-bold">
+                    <div class="w-12 h-12 bg-brand/10 text-brand rounded-2xl flex items-center justify-center mb-6"><i class="fas fa-robot text-xl"></i></div>
+                    <h3 class="text-xl md:text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold italic">Industrial PLC</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed text-left italic font-bold flex-grow mb-8">Automation logic programming using Siemens, Delta, aur Mitsubishi PLCs. Customized production line systems.</p>
+                    <button onclick="openRegisterModal('Service - Industrial PLC')" class="w-full py-3 rounded-2xl border border-brand/20 text-brand text-[10px] font-bold uppercase tracking-widest group-hover:bg-brand group-hover:text-dark transition-all duration-300 italic">
+                        Book Inquiry
+                    </button>
+                </div>
+                <!-- Static Service 3 -->
+                <div class="bg-surface/30 p-8 lg:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/5 card-hover group transition-all duration-300 text-left flex flex-col h-full font-bold">
+                    <div class="w-12 h-12 bg-brand/10 text-brand rounded-2xl flex items-center justify-center mb-6"><i class="fas fa-heartbeat text-xl"></i></div>
+                    <h3 class="text-xl md:text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold italic">Medical Tech</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed text-left italic font-bold flex-grow mb-8">Surgical devices aur lab equipment ki high-precision calibration aur maintenance services provided for hospitals.</p>
+                    <button onclick="openRegisterModal('Service - Medical Tech')" class="w-full py-3 rounded-2xl border border-brand/20 text-brand text-[10px] font-bold uppercase tracking-widest group-hover:bg-brand group-hover:text-dark transition-all duration-300 italic">
+                        Book Inquiry
+                    </button>
+                </div>
             </div>
         </div>
     </main>
@@ -236,7 +259,6 @@
     <!-- PAGE 3: SMART HOME -->
     <main id="page-smarthome" class="page-node hidden-page pt-32 px-4 md:px-6 text-left">
         <div class="max-w-7xl mx-auto py-12">
-            <!-- Shaded Banner -->
             <div class="shaded-banner rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-16 relative overflow-hidden mb-12 md:mb-20 min-h-[400px] flex items-center shadow-2xl border border-white/10">
                 <div class="relative z-10 flex flex-col items-start gap-6 w-full text-left">
                     <div class="inline-block bg-white p-2 rounded-xl mb-6 shadow-lg transform -rotate-1">
@@ -315,12 +337,12 @@
         </div>
     </main>
 
-    <!-- PAGE 4: WORKSHOPS -->
+    <!-- PAGE 4: WORKSHOPS (DYNAMIC) -->
     <main id="page-workshops" class="page-node hidden-page pt-32 px-4 md:px-6 text-left">
         <div class="max-w-7xl mx-auto py-12">
             <h1 class="text-4xl md:text-7xl font-black text-white italic mb-8 md:mb-12 uppercase text-left font-bold font-bold font-bold font-bold">Live <span class="text-brand">Workshops</span></h1>
             <div id="workshops-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 text-left">
-                <!-- Data dynamically injected -->
+                <!-- Workshops dynamically injected -->
             </div>
         </div>
     </main>
@@ -369,7 +391,7 @@
 
     <!-- SHARED FOOTER -->
     <footer class="py-12 bg-dark text-center border-t border-white/5 px-4">
-        <p class="text-[8px] md:text-[10px] uppercase tracking-[0.3em] text-slate-600 font-bold italic leading-relaxed">&copy; 2024 ROXTRONICS HUB INDIA | CHECKPOINT-4</p>
+        <p class="text-[8px] md:text-[10px] uppercase tracking-[0.3em] text-slate-600 font-bold italic leading-relaxed font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold font-bold">&copy; 2024 ROXTRONICS HUB INDIA | CHECKPOINT-4</p>
     </footer>
 
     <!-- REGISTRATION MODAL -->
@@ -432,22 +454,6 @@
             }
         }
 
-        const renderService = (item) => {
-            const title = item.title || "Professional Service";
-            const description = item.description || "Details soon.";
-            let icon = "fa-cog";
-            if(title.toLowerCase().includes("cnc")) icon = "fa-crosshairs";
-            if(title.toLowerCase().includes("plc") || title.toLowerCase().includes("automation")) icon = "fa-robot";
-            if(title.toLowerCase().includes("medical")) icon = "fa-heartbeat";
-
-            return `
-            <div class="bg-surface/30 p-8 lg:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/5 card-hover group transition-all duration-300 text-left font-bold">
-                <div class="w-12 h-12 bg-brand/10 text-brand rounded-2xl flex items-center justify-center mb-6"><i class="fas ${icon} text-xl"></i></div>
-                <h3 class="text-xl md:text-2xl font-bold text-white mb-4 italic uppercase text-left font-bold">${title}</h3>
-                <p class="text-slate-400 text-sm leading-relaxed text-left italic font-bold">${description}</p>
-            </div>`;
-        };
-
         const renderWorkshop = (item) => {
             const name = item.name || "Workshop";
             const cost = item.cost || "Free";
@@ -482,7 +488,7 @@
                     <h3 class="text-xl md:text-2xl font-bold text-white mb-4 italic uppercase font-bold">${name}</h3>
                     <p class="text-slate-400 text-sm mb-6 line-clamp-3 font-bold flex-grow font-bold">${item.description || ""}</p>
                     <div class="space-y-2 mb-8 border-t border-white/5 pt-4 uppercase text-[10px] text-slate-500 font-bold font-bold"><i class="fas fa-clock w-4 text-brand"></i> ${item.time || 'TBA'}<br><i class="fas fa-map-marker-alt w-4 text-brand font-bold"></i> ${item.venue || 'Online'}</div>
-                    <button onclick="openRegisterModal('Workshop - ${name}')" ${btnDisabled} class="w-full py-3 rounded-2xl border border-brand/20 text-brand text-[10px] font-bold uppercase group-hover:bg-brand group-hover:text-dark transition-all duration-300 italic font-bold">
+                    <button onclick="openRegisterModal('Workshop - ${name}')" ${btnDisabled} class="w-full py-3 rounded-2xl border border-brand/20 text-brand text-[10px] font-bold uppercase tracking-widest group-hover:bg-brand group-hover:text-dark transition-all duration-300 italic font-bold">
                         ${btnText}
                     </button>
                 </div>
@@ -505,7 +511,6 @@
             display.classList.add('hidden');
 
             try {
-                // Route defined in registrations.gs doGet()
                 const fetchUrl = `${SCRIPT_URL}?sheet=Service_Status&jobId=${encodeURIComponent(id)}`;
                 const response = await fetch(fetchUrl);
                 const data = await response.json();
@@ -584,9 +589,7 @@
                 if(btn) btn.classList.toggle('active-nav', p === pageId);
             });
             
-            // Logic to fetch dynamic content when specific page is visited
             if (pageId === 'workshops') fetchData('Workshops', 'workshops-container', renderWorkshop);
-            if (pageId === 'services') fetchData('Services', 'services-container', renderService);
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
             toggleMobileMenu(false);
@@ -610,7 +613,6 @@
         document.getElementById('close-btn')?.addEventListener('click', () => toggleMobileMenu(false));
         document.getElementById('menu-backdrop')?.addEventListener('click', () => toggleMobileMenu(false));
 
-        // Initial Page Load
         window.onload = () => showPage('home');
     </script>
 </body>
