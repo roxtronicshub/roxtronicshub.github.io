@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- CHECKPOINT-4: DYNAMIC WORKSHOP POPUP REGISTRATION & SMART HOME PACKAGES -->
+    <!-- CHECKPOINT-4: FIXED TEXT CLIPPING & OPTIMIZED HERO VISIBILITY -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROXTRONICS HUB INDIA | Tata Power EZ Home Partner</title>
@@ -51,7 +51,8 @@
             gap: 2px;
             opacity: 0.4; 
             z-index: -1;
-            filter: brightness(0.8) contrast(110%);
+            /* Grayscale restored with brightness/contrast adjustments */
+            filter: grayscale(100%) brightness(0.8) contrast(110%);
             overflow: hidden;
         }
         
@@ -70,7 +71,6 @@
         .hero-overlay {
             position: absolute;
             inset: 0;
-            /* Adjusted for better background image visibility */
             background: linear-gradient(to bottom, rgba(15, 23, 42, 0.05), #0f172a00);
             z-index: 0;
         }
@@ -79,6 +79,9 @@
             background: linear-gradient(to right, #ffffff, #a3e635);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            /* Added padding-right to prevent italic 'N' from clipping */
+            padding-right: 0.15em;
+            margin-right: -0.15em;
         }
 
         .card-hover:hover {
@@ -108,7 +111,6 @@
             100% { background-position: -200% 0; }
         }
 
-        /* Modal Base Style */
         .modal-base { 
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
             opacity: 0; 
@@ -183,7 +185,7 @@
             <div class="hero-overlay"></div>
             <div class="max-w-6xl w-full text-center md:text-left grid md:grid-cols-5 gap-12 items-center relative z-10">
                 <div class="md:col-span-3 text-left">
-                    <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white leading-[1.2] mb-6 italic uppercase text-left">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6 italic uppercase text-left">
                         Future of <span class="gradient-text">Automation</span> is here.
                     </h1>
                     <p class="text-slate-300 text-lg md:text-xl max-w-xl mb-10 leading-relaxed text-left italic">"Precision engineering services for Industrial CNC, Smart Home integration, and Medical Tech."</p>
@@ -226,7 +228,6 @@
     <!-- PAGE 3: SMART HOME -->
     <main id="page-smarthome" class="page-node hidden-page pt-32 px-6 text-left">
         <div class="max-w-7xl mx-auto py-12">
-            <!-- Header Section -->
             <div class="bg-white/5 border border-white/10 rounded-[4rem] p-12 relative overflow-hidden text-center md:text-left mb-16">
                 <div class="relative z-10 flex flex-col md:flex-row items-center gap-12">
                     <div class="md:w-1/2 text-left">
@@ -238,16 +239,13 @@
                 </div>
             </div>
 
-            <!-- Packages Section -->
             <h2 class="text-4xl font-black text-white mb-12 uppercase italic text-left">Smart Home <span class="text-brand">Packages</span></h2>
             <div class="grid md:grid-cols-3 gap-8 text-left">
-                <!-- 1BHK Package -->
+                <!-- 1BHK -->
                 <div class="bg-surface/40 p-10 rounded-[3rem] border border-white/5 card-hover flex flex-col h-full">
                     <div class="flex justify-between items-start mb-6">
                         <span class="bg-brand/10 text-brand px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic font-bold">1BHK Setup</span>
-                        <div class="text-right">
-                            <p class="text-brand font-black text-2xl italic leading-none">₹7,999/-</p>
-                        </div>
+                        <div class="text-right"><p class="text-brand font-black text-2xl italic leading-none">₹7,999/-</p></div>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-6 uppercase italic font-bold">What will be covered:</h3>
                     <ul class="space-y-4 mb-10 flex-grow">
@@ -260,15 +258,12 @@
                         <button onclick="openRegisterModal('Free Demo - 1BHK Setup')" class="w-full py-3 rounded-2xl border border-brand/30 text-brand font-bold uppercase text-[10px] tracking-widest hover:bg-brand/10 transition-all italic">Book Free Demo Now</button>
                     </div>
                 </div>
-
-                <!-- 2BHK Package -->
+                <!-- 2BHK -->
                 <div class="bg-surface/40 p-10 rounded-[3rem] border border-brand/20 card-hover flex flex-col h-full relative overflow-hidden shadow-[0_0_30px_rgba(163,230,53,0.05)]">
                     <div class="absolute -right-12 top-6 bg-brand text-dark text-[10px] font-black uppercase py-1 w-44 text-center rotate-45">Popular Choice</div>
                     <div class="flex justify-between items-start mb-6">
                         <span class="bg-brand/10 text-brand px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic font-bold">2BHK Setup</span>
-                        <div class="text-right">
-                            <p class="text-brand font-black text-2xl italic leading-none">₹14,999/-</p>
-                        </div>
+                        <div class="text-right"><p class="text-brand font-black text-2xl italic leading-none">₹14,999/-</p></div>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-6 uppercase italic font-bold">What will be covered:</h3>
                     <ul class="space-y-4 mb-10 flex-grow">
@@ -282,14 +277,11 @@
                         <button onclick="openRegisterModal('Free Demo - 2BHK Setup')" class="w-full py-3 rounded-2xl border border-brand/30 text-brand font-bold uppercase text-[10px] tracking-widest hover:bg-brand/10 transition-all italic">Book Free Demo Now</button>
                     </div>
                 </div>
-
-                <!-- 3BHK Package -->
+                <!-- 3BHK -->
                 <div class="bg-surface/40 p-10 rounded-[3rem] border border-white/5 card-hover flex flex-col h-full">
                     <div class="flex justify-between items-start mb-6">
                         <span class="bg-brand/10 text-brand px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic font-bold">3BHK Setup</span>
-                        <div class="text-right">
-                            <p class="text-brand font-black text-2xl italic leading-none">₹28,999/-</p>
-                        </div>
+                        <div class="text-right"><p class="text-brand font-black text-2xl italic leading-none">₹28,999/-</p></div>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-6 uppercase italic font-bold">What will be covered:</h3>
                     <ul class="space-y-4 mb-10 flex-grow">
@@ -319,7 +311,7 @@
         </div>
     </main>
 
-    <!-- REGISTRATION MODAL (POPUP) -->
+    <!-- REGISTRATION MODAL -->
     <div id="register-modal" class="fixed inset-0 z-[250] flex items-center justify-center p-4 modal-base">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeRegisterModal()"></div>
         <div class="bg-surface border border-white/10 p-8 md:p-12 rounded-[4rem] max-w-2xl w-full relative z-10 shadow-2xl modal-hide-anim overflow-y-auto max-h-[90vh]">
@@ -328,23 +320,17 @@
             <p id="reg-subtitle" class="text-slate-400 mb-8 italic uppercase text-xs font-bold tracking-widest">Inquiry for: <span class="text-brand" id="selected-service-text">General Inquiry</span></p>
             
             <form id="popup-registration-form" class="space-y-4" onsubmit="handleRegistration(event)">
-                <!-- Category is now dynamic -->
                 <input type="hidden" id="form-category" name="category" value="General Inquiry">
-                
                 <input type="text" id="form-name" name="name" required placeholder="Full Name" class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand transition-all">
-                
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input type="tel" id="form-contact" name="contact" required placeholder="Contact Number" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all">
                     <input type="email" id="form-email" name="email" required placeholder="Email Address" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all">
                 </div>
-                
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input type="text" id="form-city" name="city" required placeholder="City" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all">
                     <input type="text" id="form-state" name="state" required placeholder="State" class="bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand w-full transition-all">
                 </div>
-
                 <textarea id="form-message" name="message" rows="3" placeholder="How can we help you?" class="w-full bg-dark/50 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-brand transition-all"></textarea>
-                
                 <button id="submit-btn" class="w-full bg-brand text-dark font-black py-4 rounded-2xl uppercase tracking-widest hover:scale-[1.02] transition shadow-lg flex justify-center items-center gap-2 font-bold italic uppercase">
                     Submit Registration
                 </button>
@@ -363,7 +349,6 @@
         </div>
     </div>
 
-    <!-- SHARED FOOTER -->
     <footer class="py-12 bg-dark text-center border-t border-white/5">
         <p class="text-[10px] uppercase tracking-[0.5em] text-slate-600 font-bold italic uppercase leading-relaxed tracking-widest font-bold">&copy; 2024 ROXTRONICS HUB INDIA | CHECKPOINT-4</p>
     </footer>
@@ -381,15 +366,14 @@
                 const fetchUrl = SCRIPT_URL + (SCRIPT_URL.includes('?') ? '&' : '?') + 'sheet=' + encodeURIComponent(sheetName);
                 const response = await fetch(fetchUrl);
                 const data = await response.json();
-                
                 if (!data || data.length === 0) {
                     container.innerHTML = `<p class="col-span-full text-center text-slate-500 py-20 italic font-bold">No ${sheetName} found in sheet.</p>`;
                     return;
                 }
-                
                 container.innerHTML = ''; 
                 data.forEach(item => container.insertAdjacentHTML('beforeend', renderFn(item)));
             } catch (e) {
+                console.error(e);
                 container.innerHTML = `<p class="col-span-full text-center text-red-400 py-20 uppercase font-bold text-xs italic">Error loading ${sheetName}.</p>`;
             }
         }
@@ -398,7 +382,6 @@
             const name = item.name || item['workshop name'] || "Elite Workshop";
             const cost = item.cost || item['registration cost.'] || "Free";
             const description = item.description || "Details soon.";
-            
             return `
             <div class="bg-surface/30 p-8 rounded-[3rem] border border-white/5 card-hover group transition-all duration-300 text-left">
                 <div class="flex justify-between items-start mb-6"><div class="bg-brand/10 text-brand px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest font-bold italic">₹${cost}</div><i class="fas fa-calendar-check text-slate-600"></i></div>
@@ -412,17 +395,13 @@
             </div>`;
         };
 
-        // NEW: Open Popup for Registration
         function openRegisterModal(serviceName) {
             const modal = document.getElementById('register-modal');
             const content = modal.querySelector('div:last-child');
             const categoryInput = document.getElementById('form-category');
             const selectedText = document.getElementById('selected-service-text');
-
-            // Set the dynamic category directly from serviceName
             categoryInput.value = serviceName;
             selectedText.innerText = serviceName;
-
             modal.classList.add('modal-show');
             content.classList.remove('modal-hide-anim');
             content.classList.add('modal-content-anim');
@@ -442,15 +421,12 @@
             const btn = document.getElementById('submit-btn');
             const form = document.getElementById('popup-registration-form');
             const formData = new URLSearchParams(new FormData(form));
-            
             if (SCRIPT_URL.includes('YOUR_APPS_SCRIPT')) {
                 alert("Please add SCRIPT_URL first!");
                 return;
             }
-
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-circle-notch animate-spin"></i> Processing...';
-
             try {
                 await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: formData });
                 closeRegisterModal();
@@ -489,9 +465,7 @@
                 const btn = document.getElementById(`nav-${p}`);
                 if(btn) btn.classList.toggle('active-nav', p === pageId);
             });
-
             if (pageId === 'workshops') fetchData('Workshops', 'workshops-container', renderWorkshop);
-            
             window.scrollTo({ top: 0, behavior: 'smooth' });
             toggleMobileMenu(false);
         }
